@@ -1,0 +1,447 @@
+body {
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana,  sans-serif;
+    background-color: #F0F0F0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    margin: 0;
+}
+.my-custom-container-main {
+    width: 100%;
+    max-width: 1280px;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+}
+
+.tool-container{  
+    justify-content: center;
+}
+
+.inputmain-container{
+    background-color:#ffffff ;
+    padding-top: 10px;
+    padding-left:10px;
+    padding-right:10px;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-top:10px ;
+    margin-left:10px ;
+    margin-right:10px ;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.input-container {
+    background-color: rgb(255, 255, 255);
+    width: 80%;
+    height: 85px;
+    margin-top: 10px;
+    padding: 1px;
+    border-radius: 10px;
+    border: 3px solid #FF4500;
+    z-index:10010;
+    box-shadow: inset 0 0 4px 4px #ededed;
+    transition: box-shadow 0.3s ease;
+}
+
+@media (max-width: 700px) {
+    .input-container {
+        width: 94%;
+        
+
+    }
+}
+ #eraseLogo {
+    position: absolute;
+    cursor: pointer;
+    margin-left: -42px;
+    display: flex; /* Make it a flex container */
+    align-items: center; /* Center items vertically */
+    justify-content: center; /* Center items horizontally */
+    transform: translateY(60%);
+    color: #7e7a7a;
+    font-size: 25px;
+    font-weight: 800; /* Make the font bold */
+    height: 35px; /* Set the desired height */
+    width: 35px; /* Set the desired width */
+    border-radius: 50%; /* Make it circular */
+    transition: background-color 0.3s ease; /* Smooth transition for hover effect */
+  }
+        /* Hover effect */
+   #eraseLogo:hover {
+     background-color: rgba(0, 0, 0, 0.1); /* Add a semi-transparent background on hover */
+   }
+
+  .close-icon {
+       width: 100%; /* Ensure the SVG takes up the full size of the container */
+       height: 100%;
+       fill: currentColor; /* Ensure the SVG inherits the color from the parent element */
+   }
+.my-input-box {
+    width: 100%;
+    height:100%;
+    resize: none;
+    color:#2D3748 !important; 
+    padding-right: 45px;
+    outline: none;
+    padding-top: 20px;
+    padding-bottom:20px;
+    padding-left: 10px;
+    box-sizing: border-box;
+    direction: ltr;
+    text-align: left;
+    background-color: rgb(255, 255, 255,0);
+    overflow-x: hidden;
+    font-size: 24px;
+    line-height: 1.4;
+
+}
+.my-input-box::placeholder {
+    color: rgb(201, 201, 201);
+    transition: color 0.2s ease;
+    
+}
+.my-input-box:hover::placeholder {
+    color: rgb(12, 12, 12); /* Change this to your desired hover color */
+}
+.my-input-box:hover{
+  box-shadow:  0 0 0px 0px #808080;
+}
+
+
+.my-input-box::-webkit-scrollbar {
+    width: 0;
+}
+
+
+
+.fonts-catagory{
+    position: sticky;
+    top: 238px;
+    z-index:900 ;
+    color: #121212;
+    font-weight: 700;
+    line-height: 30px;
+    padding-top: 15px ;
+    padding-bottom: 0px;
+    background-color: #F0F0F0 ;
+}
+.fix-container{
+    
+    position: sticky;
+    top: 32px;
+    z-index:1000 ;
+    background-color:  #F0F0F0;
+    
+
+}
+@media (max-width: 700px) {
+    .output-container {
+        width: 100%;
+        
+
+    }
+}
+.output-container {
+    position: relative; /* Make sure the parent is relatively positioned */
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding-top: 55px ;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-bottom: 0px;
+    overflow-y: auto;
+    justify-content: center;
+    background-color: #F0F0F0;
+    border-radius: 15px;
+    border: 3px dashed #808080; /* Black border */
+}
+.out-output-box {
+    position: relative; /* Ensure pseudo-elements are positioned relative to this box */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    padding: 4px;
+    background-color: rgb(255, 255, 255);
+}
+.out-output-box::before, .out-output-box::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    z-index: 1;
+    border-radius: 10px; /* Ensure the pseudo-elements follow the border radius */
+    pointer-events: none; /* Make sure it doesn't interfere with clicks */
+}
+
+.out-output-box::before {
+    left: 0;
+    width: 26px; /* Adjust the width of the blur effect */
+    background: linear-gradient(
+        to right,
+        rgba(255, 255, 255, 1) 0%, 
+        rgba(255, 255, 255, 1) 50%, 
+        rgba(255, 255, 255, 0) 100%
+    );
+}
+
+.out-output-box::after {
+    right: 0;   
+    width: 120px; /* Adjust the width of the blur effect */
+    background: linear-gradient(
+        to left, 
+        rgba(255, 255, 255, 1) 0%, 
+        rgba(255, 255, 255, 1) 20%, 
+        rgba(255, 255, 255, 1) 50%, 
+        rgba(255, 255, 255, 1) 80%, 
+        rgba(255, 255, 255, 1) 90%, 
+        rgba(255, 255, 255, 0) 100%
+    );}
+.output-box {
+    overflow: hidden;
+    background-color: rgb(255, 255, 255);
+    white-space: nowrap;
+    height: 90px;
+    padding-top: 20px;
+    padding-left: 20px;
+    resize: none;
+    outline: none;
+    cursor: pointer;
+    box-sizing: border-box;
+    direction: ltr;
+    text-align: left;
+    margin: 0;
+    overflow-x: auto;
+    overflow-y: hidden;
+    position: relative;
+    font-size: 25px; /* Change to desired font size */
+    transition: padding 0.1s ease, background-color 0.1s ease;
+}
+
+
+
+
+.output-box::-webkit-scrollbar {
+    width: 0;
+}
+.output-box::-webkit-scrollbar {
+    display: none;
+}
+.copy-button {
+    position: relative;
+    top: -50%;
+    transform: translateY(-175%);
+    background-color: rgb(255, 255, 255);
+    color: #808080;
+    border: 15px solid #ffffff;
+    padding: 15px;
+    border-radius: 20px;
+    cursor: pointer;
+    z-index: 1;
+    transition: background-color 0.1s ease, color 0.1s ease;
+    float: right; /* Aligns the button to the right */
+    margin-right: 5px;
+    box-shadow: inset 0 0 2px 1px #808080;
+    transition: box-shadow 0.3s ease; /* Smooth transition */
+}
+.copy-button:hover {    box-shadow: inset 0 0 0px 0px #808080;
+}
+.font-name {
+    background-color: rgb(255, 255, 255);
+    transform: translateY(-100%);
+    font-weight: 400; /* Semi Bold */
+    color: #808080;
+    width :290px;
+    height:30px;
+    cursor: default;
+    margin: 0 auto ;
+    text-align: center; /* Optional: Centers the text within the element */
+    
+}
+ 
+
+.loadMoreFonts-button {
+    background-color: #FF4500;
+    color: #fff;
+    text-align: center; 
+    border: none;
+    font-size: 16px;
+    padding: 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.4s ease, color 0.4s ease;
+    position: absolute; 
+    bottom: 10px; 
+    left: 50%;
+    margin-bottom:20px;
+    transform: translateX(-50%);
+    
+}
+.loadMoreFonts-button:hover,.loadMoreFonts-button:active {
+    background-color: #EC4816;
+    color: white;
+    transform:translateX(-50%) scale(1.01) ;
+
+}
+
+
+
+
+.end-container{
+    width: 100%;
+    max-width: 1024px;
+    text-align: center;
+    padding: 10px;
+    
+}
+
+
+.menu-container {
+    position: relative;
+    width: 90%;
+    margin: 0 auto;
+    max-width: 1024px;
+    overflow: visible;
+    padding: 10px;
+    
+}
+@media (max-width: 700px) {
+    .menu-container {
+        width: 80%;
+        
+    }
+    .left-sign {
+        left: -24px;
+    }
+    
+    .right-sign {
+        right: -24px;
+    }
+}
+.fonts-menu {
+    width: 100%;
+    display: flex;
+    gap: 5px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 10px;
+    padding-right:10;
+    margin: 0 auto;
+    white-space: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.fonts-menu::-webkit-scrollbar {
+    width: 0;
+}
+
+.fonts-menu-item {
+    background-color: #dad8d8;
+    color: #000000;
+    padding: 6px 15px;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    flex-shrink: 0;
+    margin-right: 5px;
+    font-size: 20px;
+    display: inline-flex; /* Use inline-flex for horizontal alignment */
+    align-items: center; /* Center align items vertically */
+    gap: 10px; /* Add some space between the items */
+
+}
+
+.menu-item-bold {
+    margin-right: 5px;
+}
+
+.fonts-menu-item:hover {
+    background-color: rgb(229, 229, 229);
+    transform: scale(1.05);
+}
+
+.fonts-menu-item.active {
+    border: 1px solid #FF4500;
+    color: #000000;
+}
+
+.border-sign {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    color: #ffffff;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s, transform 0.3s;
+}
+
+.left-sign, .right-sign {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-73%);
+    width: 42px;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 3D shadow effect */
+    background-color: #FF4500;
+    z-index: 100;
+}
+
+.left-sign {
+    left: -20px;
+}
+
+.right-sign {
+    right: -20px;
+}
+
+.left-sign:hover, .right-sign:hover,
+.left-sign.active, .right-sign.active {
+    background-color: #EC4816;
+    transform: translateY(-73%) scale(1.06);
+}
+
+@media (max-width: 768px) {
+    .fonts-menu {
+        overflow-x: auto;
+    }
+}
+
+.hidden {
+    display: none;
+}
+.notification {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #0162ca;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    animation: fadeOut 7s forwards;
+    z-index: 100;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 3D shadow effect */
+
+}
+
+@keyframes fadeOut {
+    0% {
+        opacity: 1;
+    }
+    80% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+        visibility: hidden;
+    }
+}
