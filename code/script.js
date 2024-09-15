@@ -134,99 +134,99 @@ if (!isMobile()) {
        
               
 
-              function createOutputBox(fontName, container) {
-    const outputBoxId = `output${fontName.replace(/\s+/g, '')}`;
-    const outputButtonId = `outputCopyButton${fontName.replace(/\s+/g, '')}`;
+    function createOutputBox(fontName, container) {
+       const outputBoxId = `output${fontName.replace(/\s+/g, '')}`;
+       const outputButtonId = `outputCopyButton${fontName.replace(/\s+/g, '')}`;
 
-    let outputBox = document.getElementById(outputBoxId);
-    let outputButton = document.getElementById(outputButtonId);
+       let outputBox = document.getElementById(outputBoxId);
+       let outputButton = document.getElementById(outputButtonId);
 
-    if (!outputBox) {
-        const outOutputBox = document.createElement('div');
-        outOutputBox.classList.add('out-output-box');
+        if (!outputBox) {
+            const outOutputBox = document.createElement('div');
+            outOutputBox.classList.add('out-output-box');
 
-        outputBox = document.createElement('div');
-        outputBox.id = outputBoxId;
-        outputBox.classList.add('output-box');
-        outputBox.style.fontFamily = `"${fontName}", sans-serif`;
+            outputBox = document.createElement('div');
+            outputBox.id = outputBoxId;
+            outputBox.classList.add('output-box');
+            outputBox.style.fontFamily = `"${fontName}", sans-serif`;
 
-        outOutputBox.appendChild(outputBox);
-        container.appendChild(outOutputBox);
-    }
+            outOutputBox.appendChild(outputBox);
+            container.appendChild(outOutputBox);
+       }
 
-    if (!outputButton) {
-        const fontNameDisplay = document.createElement('p');
-        fontNameDisplay.textContent = fontName;
-        fontNameDisplay.classList.add('font-name');
+        if (!outputButton) {
+            const fontNameDisplay = document.createElement('p');
+            fontNameDisplay.textContent = fontName;
+            fontNameDisplay.classList.add('font-name');
 
-        outputButton = document.createElement('button');
-        outputButton.id = outputButtonId;
-        outputButton.classList.add('copy-button', 'output-copy-button');
-        outputButton.setAttribute('data-output-box', outputBoxId);
-        outputButton.textContent = 'Copy';
+            outputButton = document.createElement('button');
+            outputButton.id = outputButtonId;
+            outputButton.classList.add('copy-button', 'output-copy-button');
+            outputButton.setAttribute('data-output-box', outputBoxId);
+            outputButton.textContent = 'Copy';
 
-        container.appendChild(fontNameDisplay);
-        container.appendChild(outputButton);
-
+            container.appendChild(fontNameDisplay);
+            container.appendChild(outputButton);
         
-    }
+        }
 
-    if (!outputButton.dataset.listenerAdded) {
-        outputButton.addEventListener('click', () => {
-            copyToClipboard(outputBoxId);
-            changeButtonText(outputBox);
+        if (!outputButton.dataset.listenerAdded) {
+            
+            outputButton.addEventListener('click', () => {
+             copyToClipboard(outputBoxId);
+             changeButtonText(outputBox);
+            });
+
+            outputButton.dataset.listenerAdded = true;
+        }
+
+        outputBox.addEventListener('mouseover', () => {
+         outputButton.style.backgroundColor = '#FF4500';
+         outputButton.style.color = 'white';
+         //     outputButton.style.border = '15px solid rgba(255, 255, 255)';
+         outputBox.style.color = '#FF4500';
+         outputBox.style.paddingTop = '21px';
+         outputBox.style.paddingLeft = '21px';
+         outputButton.style.boxShadow = '0 0 0px 0px #808080';
         });
 
-        outputButton.dataset.listenerAdded = true;
+        outputBox.addEventListener('mouseout', () => {
+          outputButton.style.backgroundColor = 'rgb(255, 255, 255)';
+          outputButton.style.color = '#808080';
+          // outputButton.style.border = '15px solid rgba(255, 69, 0, 0)';
+          outputButton.style.boxShadow = 'inset 0 0 2px 1px #808080';
+          outputBox.style.color = 'Black';
+          outputBox.style.paddingTop = '20px';
+          outputBox.style.paddingLeft = '20px';
+        });
+
+        outputButton.addEventListener('mouseover', () => {
+         outputButton.style.backgroundColor = '#FF4500';
+         outputButton.style.color = 'white';
+            //  outputButton.style.border = '15px solid rgba(255, 255,255)';
+         outputButton.style.boxShadow = '0 0 0px 0px #808080';
+         outputBox.style.color = '#FF4500';
+         outputBox.style.paddingTop = '21px';
+         outputBox.style.paddingLeft = '21px';
+        });
+
+        outputButton.addEventListener('mouseout', () => {
+         outputButton.style.backgroundColor = 'rgb(255, 255, 255)';
+         outputButton.style.color = '#808080';
+           //     outputButton.style.border = '15px solid rgba(255, 69, 0, 0)';
+         outputButton.style.boxShadow = 'inset 0 0 2px 1px #808080';
+         outputBox.style.color = 'Black';
+         outputBox.style.paddingTop = '20px';
+         outputBox.style.paddingLeft = '20px';
+        });
+
+        outputBox.addEventListener('click', () => {
+         copyToClipboard(outputBoxId);
+         changeButtonText(outputBox);
+        });
+
+        return outputBox;
     }
-
-    outputBox.addEventListener('mouseover', () => {
-        outputButton.style.backgroundColor = '#FF4500';
-        outputButton.style.color = 'white';
-   //     outputButton.style.border = '15px solid rgba(255, 255, 255)';
-        outputBox.style.color = '#FF4500';
-        outputBox.style.paddingTop = '21px';
-        outputBox.style.paddingLeft = '21px';
-        outputButton.style.boxShadow = '0 0 0px 0px #808080';
-    });
-
-    outputBox.addEventListener('mouseout', () => {
-        outputButton.style.backgroundColor = 'rgb(255, 255, 255)';
-        outputButton.style.color = '#808080';
-  //      outputButton.style.border = '15px solid rgba(255, 69, 0, 0)';
-        outputButton.style.boxShadow = 'inset 0 0 2px 1px #808080';
-        outputBox.style.color = 'Black';
-        outputBox.style.paddingTop = '20px';
-        outputBox.style.paddingLeft = '20px';
-    });
-
-    outputButton.addEventListener('mouseover', () => {
-        outputButton.style.backgroundColor = '#FF4500';
-        outputButton.style.color = 'white';
-  //      outputButton.style.border = '15px solid rgba(255, 255,255)';
-        outputButton.style.boxShadow = '0 0 0px 0px #808080';
-        outputBox.style.color = '#FF4500';
-        outputBox.style.paddingTop = '21px';
-        outputBox.style.paddingLeft = '21px';
-    });
-
-    outputButton.addEventListener('mouseout', () => {
-        outputButton.style.backgroundColor = 'rgb(255, 255, 255)';
-        outputButton.style.color = '#808080';
-   //     outputButton.style.border = '15px solid rgba(255, 69, 0, 0)';
-        outputButton.style.boxShadow = 'inset 0 0 2px 1px #808080';
-        outputBox.style.color = 'Black';
-        outputBox.style.paddingTop = '20px';
-        outputBox.style.paddingLeft = '20px';
-    });
-
-    outputBox.addEventListener('click', () => {
-        copyToClipboard(outputBoxId);
-        changeButtonText(outputBox);
-    });
-
-    return outputBox;
-}
 
 
 
@@ -241,22 +241,15 @@ if (!isMobile()) {
 
         const fonts = {
            
-            'Math Sans Italic':'𝘈,𝘉,𝘊,𝘋,𝘌,𝘍,𝘎,𝘏,𝘐,𝘑,𝘒,𝘓,𝘔,𝘕,𝘖,𝘗,𝘘,𝘙,𝘚,𝘛,𝘜,𝘝,𝘞,𝘟,𝘠,𝘡,𝘢,𝘣,𝘤,𝘥,𝘦,𝘧,𝘨,𝘩,𝘪,𝘫,𝘬,𝘭,𝘮,𝘯,𝘰,𝘱,𝘲,𝘳,𝘴,𝘵,𝘶,𝘷,𝘸,𝘹,𝘺,𝘻,1,2,3,4,5,6,7,8,9,0',
-            'Sans Serif Bold Italic':'𝘼,𝘽,𝘾,𝘿,𝙀,𝙁,𝙂,𝙃,𝙄,𝙅,𝙆,𝙇,𝙈,𝙉,𝙊,𝙋,𝙌,𝙍,𝙎,𝙏,𝙐,𝙑,𝙒,𝙓,𝙔,𝙕,𝙖,𝙗,𝙘,𝙙,𝙚,𝙛,𝙜,𝙝,𝙞,𝙟,𝙠,𝙡,𝙢,𝙣,𝙤,𝙥,𝙦,𝙧,𝙨,𝙩,𝙪,𝙫,𝙬,𝙭,𝙮,𝙯,1,2,3,4,5,6,7,8,9,0',
-            'Math Serif Italic Bold':'𝑨,𝑩,𝑪,𝑫,𝑬,𝑭,𝑮,𝑯,𝑰,𝑱,𝑲,𝑳,𝑴,𝑵,𝑶,𝑷,𝑸,𝑹,𝑺,𝑻,𝑼,𝑽,𝑾,𝑿,𝒀,𝒁,𝒂,𝒃,𝒄,𝒅,𝒆,𝒇,𝒈,𝒉,𝒊,𝒋,𝒌,𝒍,𝒎,𝒏,𝒐,𝒑,𝒒,𝒓,𝒔,𝒕,𝒖,𝒗,𝒘,𝒙,𝒚,𝒛,1,2,3,4,5,6,7,8,9,0',
-            'Fancy Script Italic':'𝒜,ℬ,𝒞,𝒟,ℰ,ℱ,𝒢,ℋ,ℐ,𝒥,𝒦,ℒ,ℳ,𝒩,𝒪,𝒫,𝒬,ℛ,𝒮,𝒯,𝒰,𝒱,𝒲,𝒳,𝒴,𝒵,𝒶,𝒷,𝒸,𝒹,ℯ,𝒻,ℊ,𝒽,𝒾,𝒿,𝓀,𝓁,𝓂,𝓃,ℴ,𝓅,𝓆,𝓇,𝓈,𝓉,𝓊,𝓋,𝓌,𝓍,𝓎,𝓏,1,2,3,4,5,6,7,8,9,0',
-            'Script Italic':'𝒜,𝐵,𝒞,𝒟,𝐸,𝐹,𝒢,𝐻,𝐼,𝒥,𝒦,𝐿,𝑀,𝒩,𝒪,𝒫,𝒬,𝑅,𝒮,𝒯,𝒰,𝒱,𝒲,𝒳,𝒴,𝒵,𝒶,𝒷,𝒸,𝒹,𝑒,𝒻,𝑔,𝒽,𝒾,𝒿,𝓀,𝓁,𝓂,𝓃,𝑜,𝓅,𝓆,𝓇,𝓈,𝓉,𝓊,𝓋,𝓌,𝓍,𝓎,𝓏,1,2,3,4,5,6,7,8,9,0' ,
-            'Script Bold Italic':'𝓐,𝓑,𝓒,𝓓,𝓔,𝓕,𝓖,𝓗,𝓘,𝓙,𝓚,𝓛,𝓜,𝓝,𝓞,𝓟,𝓠,𝓡,𝓢,𝓣,𝓤,𝓥,𝓦,𝓧,𝓨,𝓩,𝓪,𝓫,𝓬,𝓭,𝓮,𝓯,𝓰,𝓱,𝓲,𝓳,𝓴,𝓵,𝓶,𝓷,𝓸,𝓹,𝓺,𝓻,𝓼,𝓽,𝓾,𝓿,𝔀,𝔁,𝔂,𝔃,1,2,3,4,5,6,7,8,9,0',
-            'Math Sans Italic Reverse':'𝘈,𝘉,𝘊,𝘋,𝘌,𝘍,𝘎,𝘏,𝘐,𝘑,𝘒,𝘓,𝘔,𝘕,𝘖,𝘗,𝘘,𝘙,𝘚,𝘛,𝘜,𝘝,𝘞,𝘟,𝘠,𝘡,𝘢,𝘣,𝘤,𝘥,𝘦,𝘧,𝘨,𝘩,𝘪,𝘫,𝘬,𝘭,𝘮,𝘯,𝘰,𝘱,𝘲,𝘳,𝘴,𝘵,𝘶,𝘷,𝘸,𝘹,𝘺,𝘻,1,2,3,4,5,6,7,8,9,0',
-            'Upper Case Italic':'𝘈,𝘉,𝘊,𝘋,𝘌,𝘍,𝘎,𝘏,𝘐,𝘑,𝘒,𝘓,𝘔,𝘕,𝘖,𝘗,𝘘,𝘙,𝘚,𝘛,𝘜,𝘝,𝘞,𝘟,𝘠,𝘡,𝘈,𝘉,𝘊,𝘋,𝘌,𝘍,𝘎,𝘏,𝘐,𝘑,𝘒,𝘓,𝘔,𝘕,𝘖,𝘗,𝘘,𝘙,𝘚,𝘛,𝘜,𝘝,𝘞,𝘟,𝘠,𝘡',  
-            'Lower Case Italic':'𝘢,𝘣,𝘤,𝘥,𝘦,𝘧,𝘨,𝘩,𝘪,𝘫,𝘬,𝘭,𝘮,𝘯,𝘰,𝘱,𝘲,𝘳,𝘴,𝘵,𝘶,𝘷,𝘸,𝘹,𝘺,𝘻,𝘢,𝘣,𝘤,𝘥,𝘦,𝘧,𝘨,𝘩,𝘪,𝘫,𝘬,𝘭,𝘮,𝘯,𝘰,𝘱,𝘲,𝘳,𝘴,𝘵,𝘶,𝘷,𝘸,𝘹,𝘺,𝘻',
-            'Math Sans Italic Letter Case':'𝘈,𝘉,𝘊,𝘋,𝘌,𝘍,𝘎,𝘏,𝘐,𝘑,𝘒,𝘓,𝘔,𝘕,𝘖,𝘗,𝘘,𝘙,𝘚,𝘛,𝘜,𝘝,𝘞,𝘟,𝘠,𝘡,𝘢,𝘣,𝘤,𝘥,𝘦,𝘧,𝘨,𝘩,𝘪,𝘫,𝘬,𝘭,𝘮,𝘯,𝘰,𝘱,𝘲,𝘳,𝘴,𝘵,𝘶,𝘷,𝘸,𝘹,𝘺,𝘻,1,2,3,4,5,6,7,8,9,0',
-            'Fancy Script Italic Bracket':'𝒜,ℬ,𝒞,𝒟,ℰ,ℱ,𝒢,ℋ,ℐ,𝒥,𝒦,ℒ,ℳ,𝒩,𝒪,𝒫,𝒬,ℛ,𝒮,𝒯,𝒰,𝒱,𝒲,𝒳,𝒴,𝒵,𝒶,𝒷,𝒸,𝒹,ℯ,𝒻,ℊ,𝒽,𝒾,𝒿,𝓀,𝓁,𝓂,𝓃,ℴ,𝓅,𝓆,𝓇,𝓈,𝓉,𝓊,𝓋,𝓌,𝓍,𝓎,𝓏,1,2,3,4,5,6,7,8,9,0',
-            'Sans Serif Italic Boxed':'[𝘈̲̅],[𝘉̲̅],[𝘊̲̅],[𝘋̲̅],[𝘌̲̅],[𝘍̲̅],[𝘎̲̅],[𝘏̲̅],[𝘐̲̅],[𝘑̲̅],[𝘒̲̅],[𝘓̲̅],[𝘔̲̅],[𝘕̲̅],[𝘖̲̅],[𝘗̲̅],[𝘘̲̅],[𝘙̲̅],[𝘚̲̅],[𝘛̲̅],[𝘜̲̅],[𝘝̲̅],[𝘞̲̅],[𝘟̲̅],[𝘠̲̅],[𝘡̲̅],[𝘢̲̅],[𝘣̲̅],[𝘤̲̅],[𝘥̲̅],[𝘦̲̅],[𝘧̲̅],[𝘨̲̅],[𝘩̲̅],[𝘪̲̅],[𝘫̲̅],[𝘬̲̅],[𝘭̲̅],[𝘮̲̅],[𝘯̲̅],[𝘰̲̅],[𝘱̲̅],[𝘲̲̅],[𝘳̲̅],[𝘴̲̅],[𝘵̲̅],[𝘶̲̅],[𝘷̲̅],[𝘸̲̅],[𝘹̲̅],[𝘺̲̅],[𝘻̲̅],[1̲̅],[2̲̅],[3̲̅],[4̲̅],[5̲̅],[6̲̅],[7̲̅],[8̲̅],[9̲̅],[0̲̅]',
-            'Sans Serif Italic Zalgo':'̸̧͐𝘈̸̪̓,̴̧͐𝘉̴͍͝,̶̹̿𝘊̷̢̈́,̶̺̋𝘋̷̢̋,̴̚ͅ𝘌̷̣̈́,̴͚̆𝘍̸͉̎,̷̯͗𝘎̸̨̋,̴̧̓𝘏̷̡͒,̴̡̃𝘐̶̦͝,̵̠͛𝘑̵̼͊,̷̰̃𝘒̸̡͛,̴̤̊𝘓̸̨͋,̷̥̚𝘔̴̺̓,̵̆ͅ𝘕̵̘̀,̶͙̌𝘖̶̭͑,̴̜̾𝘗̴̬͑,̷́ͅ𝘘̵̳̄,̷̗͆𝘙̶͚̌,̸̨̍𝘚̸̖̄,̸̲̒𝘛̷̩̑,̷͂ͅ𝘜̶̯͗,̴̡̅𝘝̷̭̒,̵̭̀𝘞̷̝̾,̶̯̎𝘟̸̢̂,̸̧͒𝘠̵̔͜,̶̯̅𝘡̴͈̿,̵̟̈𝘢̶̩̋,̵̢̈𝘣̸̎͜,̴̲́𝘤̵̱̋,̵̫͛𝘥̷̨͝,̶̦̏𝘦̴̘͠,̵͖̕𝘧̷̺̑,̷̧̛𝘨̴͉̐,̵̣̓𝘩̸͉̚,̴͖̈́𝘪̶̢̊,̵̼̃𝘫̵͍̃,̵͕͝𝘬̶̣̂,̶̡̋𝘭̸̨̋,̷̯͝𝘮̴̱̌,̵̮͋𝘯̴͉̿,̷̨̿𝘰̸̹͐,̴̳̚𝘱̸̻̋,̷͎́𝘲̸͉͐,̷͉̋𝘳̶̳́,̴͋͜𝘴̴͈͐,̷̳͗𝘵̸͗͜,̴̧̏𝘶̸͓́,̶̘͂𝘷̷͔́,̶͔̉𝘸̷̺̉,̶̮̆𝘹̵̥̎,̸͖̀𝘺̸̝̋,̴̮̂𝘻̶̂͜,̷͕́1̷͚̇,̵͐ͅ2̴̬͑,̵̟̐3̴̡̒,̸̹̚4̸̢̛,̶̧̈́5̵̗̄,̸̃ͅ6̴̼̽,̸͕̐7̴̹̾,̸̥̈́8̴̼͛,̴̩̅9̴͔̊,̵̝͋0̵',         
-            'Math Sans Italic Gem 1':'𝘈,𝘉,𝘊,𝘋,𝘌,𝘍,𝘎,𝘏,𝘐,𝘑,𝘒,𝘓,𝘔,𝘕,𝘖,𝘗,𝘘,𝘙,𝘚,𝘛,𝘜,𝘝,𝘞,𝘟,𝘠,𝘡,𝘢,𝘣,𝘤,𝘥,𝘦,𝘧,𝘨,𝘩,𝘪,𝘫,𝘬,𝘭,𝘮,𝘯,𝘰,𝘱,𝘲,𝘳,𝘴,𝘵,𝘶,𝘷,𝘸,𝘹,𝘺,𝘻,1,2,3,4,5,6,7,8,9,0',
+           'Super Script': 'ᴬ,ᴮ,ᶜ,ᴰ,ᴱ,ᶠ,ᴳ,ᴴ,ᴵ,ᴶ,ᴷ,ᴸ,ᴹ,ᴺ,ᴼ,ᴾ,ᵠ,ᴿ,ˢ,ᵀ,ᵁ,ⱽ,ᵂ,ˣ,ʸ,ᶻ,ᵃ,ᵇ,ᶜ,ᵈ,ᵉ,ᶠ,ᵍ,ʰ,ᶦ,ʲ,ᵏ,ˡ,ᵐ,ⁿ,ᵒ,ᵖ,ᵠ,ʳ,ˢ,ᵗ,ᵘ,ᵛ,ʷ,ˣ,ʸ,ᶻ,¹,²,³,⁴,⁵,⁶,⁷,⁸,⁹,⁰',
+           'Sub Script':'A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z,a,b,c,d,ₑ,f,g,ₕ,ᵢ,ⱼ,ₖ,ₗ,ₘ,ₙ,ₒ,ₚ,q,ᵣ,ₛ,ₜ,ᵤ,ᵥ,w,ₓ,y,z,¹,²,3,⁴,⁵,6,⁷,⁸,9,⁰',
+           'Tinny Sans':'ᴬ,ᴮ,ᶜ,ᴰ,ᴱ,ᶠ,ᴳ,ᴴ,ᴵ,ᴶ,ᴷ,ᴸ,ᴹ,ᴺ,ᴼ,ᴾ,Q,ᴿ,ˢ,ᵀ,ᵁ,ⱽ,ᵂ,ˣ,ʸ,ᶻ,ᵃ,ᵇ,ᶜ,ᵈ,ᵉ,ᶠ,ᵍ,ʰ,ᶦ,ʲ,ᵏ,ˡ,ᵐ,ⁿ,ᵒ,ᵖ,ᑫ,ʳ,ˢ,ᵗ,ᵘ,ᵛ,ʷ,ˣ,ʸ,ᶻ,¹,²,³,⁴,⁵,⁶,⁷,⁸,⁹,⁰',
+           'Tinny Zalgo':'̵͈͌ᴬ̶̬͠,̷̜͑ᴮ̷̟̓,̶̡͗ᶜ̴͍̚,̶͎̀ᴰ̷̣͘,̸̛̯ᴱ̶̧̊,̸̹͌ᶠ̶͍̓,̸̥̍ᴳ̴̤̆,̶̤̋ᴴ̷̪̋,̸̛͜ᴵ̶̙͊,̵̳͒ᴶ̵̺́,̶͎̎ᴷ̸͚̇,̴̜̑ᴸ̶̱̆,̶̛̲ᴹ̴̳͗,̵̫͗ᴺ̸̝̌,̶̲̍ᴼ̷̨̚,̷͔̎ᴾ̸͚͂,̷͉͑ᵠ̴̲̿,̶̧̕ᴿ̷̳̆,̷̩̍ˢ̵̺͆,̶͍̍ᵀ̸̰̈́,̵͇̾ᵁ̵̢͑,̸̱̐ⱽ̶̮̕,̷̫̒ᵂ̷̢̚,̴̘̐ˣ̵͎̽,̵̳͝ʸ̸̬̔,̷̭̾ᶻ̸̧̒,̵̫͑ᵃ̷̺̚,̶̦̚ᵇ̸͓͝,̸̣͋ᶜ̶̟̋,̴̖̐ᵈ̸̫̆,̶̨̏ᵉ̵̪̚,̴̟̕ᶠ̵͕̈,̸̮͗ᵍ̴̬̍,̶̝͗ʰ̶̱̇,̸̛̲ᶦ̵̢̓,̵̘͝ʲ̷̟̉,̴͓͊ᵏ̸̲͗,̷̕͜ˡ̸̭̋,̶̣̑ᵐ̵̟͋,̴̦͝ⁿ̶̜̿,̷̿ͅᵒ̸͖̈́,̷͚͠ᵖ̵̫̆,̴̞̓ᵠ̷̗̔,̴̲̅ʳ̸̪̈́,̵̠̈́ˢ̴͈͆,̸̛̳ᵗ̶̧̽,̴̭́ᵘ̵̢͝,̶̨̐ᵛ̶̡̓,̸̳̈ʷ̷͚̉,̵̫̆ˣ̶̬̚,̷̳̐ʸ̶̗́,̷̘̊ᶻ̸̝̇,̶̥͌¹̸̛̤,̸̩̃²̶͍̈́,̴̢́³̷̘̎,̶͔̐⁴̴̡̑,̴͉́⁵̵̦͌,̵͈̅⁶̵̤͠,̵̼͋⁷̶̨̃,̵̳͌⁸̶̦̈,̴̨̉⁹̷̮̌,̴̮̂⁰̵̙̕',
+           'Super Script Upper Case':'ᴬ,ᴮ,ᶜ,ᴰ,ᴱ,ᶠ,ᴳ,ᴴ,ᴵ,ᴶ,ᴷ,ᴸ,ᴹ,ᴺ,ᴼ,ᴾ,ᵠ,ᴿ,ˢ,ᵀ,ᵁ,ⱽ,ᵂ,ˣ,ʸ,ᶻ,ᴬ,ᴮ,ᶜ,ᴰ,ᴱ,ᶠ,ᴳ,ᴴ,ᴵ,ᴶ,ᴷ,ᴸ,ᴹ,ᴺ,ᴼ,ᴾ,ᵠ,ᴿ,ˢ,ᵀ,ᵁ,ⱽ,ᵂ,ˣ,ʸ,ᶻ,¹,²,³,⁴,⁵,⁶,⁷,⁸,⁹,⁰',
+           'Super Script Lower Case':'ᵃ,ᵇ,ᶜ,ᵈ,ᵉ,ᶠ,ᵍ,ʰ,ᶦ,ʲ,ᵏ,ˡ,ᵐ,ⁿ,ᵒ,ᵖ,ᵠ,ʳ,ˢ,ᵗ,ᵘ,ᵛ,ʷ,ˣ,ʸ,ᶻ,ᵃ,ᵇ,ᶜ,ᵈ,ᵉ,ᶠ,ᵍ,ʰ,ᶦ,ʲ,ᵏ,ˡ,ᵐ,ⁿ,ᵒ,ᵖ,ᵠ,ʳ,ˢ,ᵗ,ᵘ,ᵛ,ʷ,ˣ,ʸ,ᶻ,¹,²,³,⁴,⁵,⁶,⁷,⁸,⁹,⁰',
+           'Super Script Case Letter': 'ᴬ,ᴮ,ᶜ,ᴰ,ᴱ,ᶠ,ᴳ,ᴴ,ᴵ,ᴶ,ᴷ,ᴸ,ᴹ,ᴺ,ᴼ,ᴾ,ᵠ,ᴿ,ˢ,ᵀ,ᵁ,ⱽ,ᵂ,ˣ,ʸ,ᶻ,ᵃ,ᵇ,ᶜ,ᵈ,ᵉ,ᶠ,ᵍ,ʰ,ᶦ,ʲ,ᵏ,ˡ,ᵐ,ⁿ,ᵒ,ᵖ,ᵠ,ʳ,ˢ,ᵗ,ᵘ,ᵛ,ʷ,ˣ,ʸ,ᶻ,¹,²,³,⁴,⁵,⁶,⁷,⁸,⁹,⁰',
 
-            // Add more fonts here
+           // Add more fonts here
         };
 
 
@@ -265,33 +258,19 @@ if (!isMobile()) {
             const outputBox = createOutputBox(fontName, outputContainers[0]);
             const mFontChars = generateFontMapping(fonts[fontName]);
             let convertedText = '';
-            let newdefulttext=capitalizeWords(defaultText);
 
-            if (inputTextValue === defaultText || inputTextValue === newdefulttext) {
+            switch (fontName) {
 
-                switch (fontName) {
+                case 'Super Script Case Letter':  
+                    inputTextValue = capitalizeWords(inputTextValue);
+                break;
 
-                    case 'Math Sans Italic Letter Case':  
-                        inputTextValue = capitalizeWords(inputTextValue);
-                    break;
-
-                    default:
-                    inputTextValue = defaultText; 
-                       
-                }
-
-            } else {
-
-                switch (fontName) {
-
-                    case 'Fancy Script Italic':  
-                        inputTextValue = capitalizeWords(inputTextValue);
-                    break;
-
-                    default:
-                    inputTextValue = inputText.value.trim(); // Ensure inputText is correctly defined
-                    
-                }
+                default:
+                inputTextValue = inputText.value.trim(); // Ensure inputText is correctly defined
+                if (inputTextValue === "") {
+                  inputTextValue = defaultText; // Use "defaultText" if input is empty
+                } 
+                
             }
             
 
@@ -350,7 +329,7 @@ if (!isMobile()) {
 
         index--;
         
-        addSignsToOutput('Fancy Script Heart','◦•●♡🖤 ',' 🖤♡●•◦') //    gns to specific font output
+        addSignsToOutput('Math Sans Italic Heart','◦•●❤♡','♡❤●•◦') //    gns to specific font output
            
     }
 
