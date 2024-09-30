@@ -27,7 +27,147 @@
     }
   });
 
+    // Function to shuffle an array (Fisher-Yates algorithm)
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]]; // Swap elements
+    }
+    return array;
+}
+
+// Function to generate a nickname based on the input text or randomly
+function generateNickname(name = "", usedCombinations) {
+    const nameParts = name.split(" ").filter(Boolean); // Split and remove empty parts
+    let prefixes = [
+        'Phantom', 'Shadow', 'Storm', 'Blaze', 'Venom', 'Titan',
+        'Vortex', 'Inferno', 'Fury', 'Thunder', 'Apex', 'Ghost',
+        'Savage', 'Rage', 'Death', 'Eclipse', 'Omega', 'Night',
+        'Hunter', 'Iron', 'Chaos', 'Nova', 'Dragon', 'Ultra'
+    ];
+
+    let suffixes = [
+        'Slayer', 'Reaper', 'Rider', 'Breaker', 'Stalker', 'Warlord',
+        'Sniper', 'Killer', '♔King', 'Master', 'Emperor', 'Legend',
+        'Wizard', 'Crusader', 'Champion', 'Guru', 'Beast', 'Warrior',
+        'Ninja', 'Assassin', 'Warrior', 'Knight', 'Predator', 'Bringer'
+    ];
+
+    // Shuffle the arrays to ensure diversity in selection
+    prefixes = shuffleArray(prefixes);
+    suffixes = shuffleArray(suffixes);
+
+    // Randomly select prefix and suffix
+    const randomPrefix = prefixes[Math.floor(Math.random() * prefixes.length)];
+    const randomSuffix = suffixes[Math.floor(Math.random() * suffixes.length)];
     
+    // Adjusted pattern range to include more unique combinations
+    const pattern = Math.floor(Math.random() * 7); // Patterns: 0 to 6
+
+    let nickname = "";
+
+    switch (pattern) {
+        case 0:
+            // Single word from prefixes
+            nickname = randomPrefix;
+            break;
+        case 1:
+            // Prefix + First name part
+            if (nameParts.length > 0) {
+                nickname = `${randomPrefix} ${nameParts[0]}`;
+            } else {
+                nickname = randomPrefix;
+            }
+            break;
+        case 2:
+            // First name part + Suffix
+            if (nameParts.length > 0) {
+                nickname = `${nameParts[0]} ${randomSuffix}`;
+            } else {
+                nickname = randomSuffix;
+            }
+            break;
+        case 3:
+            // Prefix + Last name part
+            if (nameParts.length > 1) {
+                nickname = `${randomPrefix} ${nameParts[nameParts.length - 1]}`;
+            } else {
+                nickname = `${randomPrefix} ${nameParts[0] || ''}`.trim();
+            }
+            break;
+        case 4:
+            // Prefix + Full name
+            if (nameParts.length > 0) {
+                nickname = `${randomPrefix} ${name}`;
+            } else {
+                nickname = randomPrefix;
+            }
+            break;
+        case 5:
+            // Full name + Suffix
+            if (nameParts.length > 0) {
+                nickname = `${name} ${randomSuffix}`;
+            } else {
+                nickname = randomSuffix;
+            }
+            break;
+        case 6:
+            // Prefix + Suffix without any name parts (two-word combination)
+            nickname = `${randomPrefix} ${randomSuffix}`;
+            break;
+    }
+
+    // Limit the resulting nickname to a maximum of 3 words
+    const nicknameWords = nickname.split(" ").filter(Boolean);
+    if (nicknameWords.length > 3) {
+        nickname = nicknameWords.slice(0, 3).join(" ");
+    }
+
+    // Avoid generating a name that's already been used
+    if (usedCombinations.has(nickname)) {
+        return generateNickname(name, usedCombinations); // Try generating again recursively
+    }
+
+    // Add to the used combinations set
+    usedCombinations.add(nickname);
+
+    return nickname.trim();
+}
+
+// Get references to the elements
+const inputElement = document.getElementById('inputText');
+const nicknameBox = document.getElementById('nicknameBox');
+
+// Function to update the nickname box with 50 generated names
+function updateNicknameBox(name = "") {
+    nicknameBox.innerHTML = ""; // Clear existing nicknames
+    const usedCombinations = new Set(); // Track used combinations
+
+    for (let i = 0; i < 50; i++) {
+        const nickname = generateNickname(name, usedCombinations);
+        const nicknameItem = document.createElement('span');
+        nicknameItem.textContent = nickname;
+        nicknameItem.classList.add('nickname-item');
+
+        // Add click event to update inputText with clicked nickname
+        nicknameItem.addEventListener('click', () => {
+            inputElement.value = nickname; // Update input field
+            inputElement.dispatchEvent(new Event('input')); // Manually trigger input event
+        });
+
+        nicknameBox.appendChild(nicknameItem);
+    }
+}
+
+// Initial nickname generation (50 random nicknames)
+updateNicknameBox();
+
+// Event listener to capture input changes and update nicknames dynamically
+inputElement.addEventListener('input', function () {
+    const name = inputElement.value.trim();
+    updateNicknameBox(name);
+});
+
     
     // Call convertText function on page load
     convertText();
@@ -233,7 +373,7 @@ if (!isMobile()) {
         }
 
         const fonts = {
-         'Crown Fraktur Bold  ':'𝕬,𝕭,𝕮,𝕯,𝕰,𝕱,𝕲,𝕳,𝕴,𝕵,𝕶,𝕷,𝕸,𝕹,𝕺,𝕻,𝕼,𝕽,𝕾,𝕿,𝖀,𝖁,𝖂,𝖃,𝖄,𝖅,𝖆,𝖇,𝖈,𝖉,𝖊,𝖋,𝖌,𝖍,𝖎,𝖏,𝖐,𝖑,𝖒,𝖓,𝖔,𝖕,𝖖,𝖗,𝖘,𝖙,𝖚,𝖛,𝖜,𝖝,𝖞,𝖟,1,2,3,4,5,6,7,8,9,0' ,
+         'Crown Fraktur Bold':'𝕬,𝕭,𝕮,𝕯,𝕰,𝕱,𝕲,𝕳,𝕴,𝕵,𝕶,𝕷,𝕸,𝕹,𝕺,𝕻,𝕼,𝕽,𝕾,𝕿,𝖀,𝖁,𝖂,𝖃,𝖄,𝖅,𝖆,𝖇,𝖈,𝖉,𝖊,𝖋,𝖌,𝖍,𝖎,𝖏,𝖐,𝖑,𝖒,𝖓,𝖔,𝖕,𝖖,𝖗,𝖘,𝖙,𝖚,𝖛,𝖜,𝖝,𝖞,𝖟,1,2,3,4,5,6,7,8,9,0' ,
          'Dark Squares Gem':'🅰,🅱,🅲,🅳,🅴,🅵,🅶,🅷,🅸,🅹,🅺,🅻,🅼,🅽,🅾,🅿,🆀,🆁,🆂,🆃,🆄,🆅,🆆,🆇,🆈,🆉,🅰,🅱,🅲,🅳,🅴,🅵,🅶,🅷,🅸,🅹,🅺,🅻,🅼,🅽,🅾,🅿,🆀,🆁,🆂,🆃,🆄,🆅,🆆,🆇,🆈,🆉,1️⃣,2️⃣,3️⃣,4️⃣,5️⃣,6️⃣,7️⃣,8️⃣,9️⃣,0️⃣' ,
          'Curvy Cross':'ᗩ,ᗷ,ᑕ,ᗪ,E,ᖴ,G,ᕼ,I,ᒍ,K,ᒪ,ᗰ,ᑎ,O,ᑭ,ᑫ,ᖇ,ᔕ,T,ᑌ,ᐯ,ᗯ,᙭,Y,ᘔ,ᗩ,ᗷ,ᑕ,ᗪ,E,ᖴ,G,ᕼ,I,ᒍ,K,ᒪ,ᗰ,ᑎ,O,ᑭ,ᑫ,ᖇ,ᔕ,T,ᑌ,ᐯ,ᗯ,᙭,Y,ᘔ,౹,੨,੩,੫,Ƽ,Ϭ,Դ,੪,੧,੦' ,
          'Full Width':'Ａ,Ｂ,Ｃ,Ｄ,Ｅ,Ｆ,Ｇ,Ｈ,Ｉ,Ｊ,Ｋ,Ｌ,Ｍ,Ｎ,Ｏ,Ｐ,Ｑ,Ｒ,Ｓ,Ｔ,Ｕ,Ｖ,Ｗ,Ｘ,Ｙ,Ｚ,ａ,ｂ,ｃ,ｄ,ｅ,ｆ,ｇ,ｈ,ｉ,ｊ,ｋ,ｌ,ｍ,ｎ,ｏ,ｐ,ｑ,ｒ,ｓ,ｔ,ｕ,ｖ,ｗ,ｘ,ｙ,ｚ,１,２,３,４,５,６,７,８,９,０' ,
@@ -256,6 +396,7 @@ if (!isMobile()) {
          'Blackboard Bold Gem':'𝔸,𝔹,ℂ,𝔻,𝔼,𝔽,𝔾,ℍ,𝕀,𝕁,𝕂,𝕃,𝕄,ℕ,𝕆,ℙ,ℚ,ℝ,𝕊,𝕋,𝕌,𝕍,𝕎,𝕏,𝕐,ℤ,𝕒,𝕓,𝕔,𝕕,𝕖,𝕗,𝕘,𝕙,𝕚,𝕛,𝕜,𝕝,𝕞,𝕟,𝕠,𝕡,𝕢,𝕣,𝕤,𝕥,𝕦,𝕧,𝕨,𝕩,𝕪,𝕫,𝟙,𝟚,𝟛,𝟜,𝟝,𝟞,𝟟,𝟠,𝟡,𝟘',
          'Gem Arrow Glitch':'λ,ß,Ȼ,ɖ,ε,ʃ,Ģ,ħ,ί,ĵ,κ,ι,ɱ,ɴ,Θ,ρ,ƣ,ર,Ș,τ,Ʋ,ν,ώ,Χ,ϓ,Հ,λ,ß,Ȼ,ɖ,ε,ʃ,Ģ,ħ,ί,ĵ,κ,ι,ɱ,ɴ,Θ,ρ,ƣ,ર,Ș,τ,Ʋ,ν,ώ,Χ,ϓ,Հ,1,2,3,4,5,6,7,8,9,0',
          'Light Squares gem':'🄰,🄱,🄲,🄳,🄴,🄵,🄶,🄷,🄸,🄹,🄺,🄻,🄼,🄽,🄾,🄿,🅀,🅁,🅂,🅃,🅄,🅅,🅆,🅇,🅈,🅉,🄰,🄱,🄲,🄳,🄴,🄵,🄶,🄷,🄸,🄹,🄺,🄻,🄼,🄽,🄾,🄿,🅀,🅁,🅂,🅃,🅄,🅅,🅆,🅇,🅈,🅉,1️⃣,2️⃣,3️⃣,4️⃣,5️⃣,6️⃣,7️⃣,8️⃣,9️⃣,0️⃣ ',
+         "Gem Mix 1":'ᗩ,ᗷ,ᑕ,ᗪ,𝐸,ᖴ,𝒢,ᕼ,𝐼,ᒍ,𝒦,ᒪ,ᗰ,ᑎ,𝒪,ᑭ,ᑫ,ᖇ,ᔕ,𝒯,ᑌ,ᐯ,ᗯ,᙭,𝒴,ᘔ,ᗩ,ᗷ,ᑕ,ᗪ,𝐸,ᖴ,𝒢,ᕼ,𝐼,ᒍ,𝒦,ᒪ,ᗰ,ᑎ,𝒪,ᑭ,ᑫ,ᖇ,ᔕ,𝒯,ᑌ,ᐯ,ᗯ,᙭,𝒴,ᘔ,౹,੨,੩,੫,Ƽ,Ϭ,Դ,੪,੧,੦',
          'Tiny upper Gem':'ᴬ,ᴮ,ᶜ,ᴰ,ᴱ,ᶠ,ᴳ,ᴴ,ᴵ,ᴶ,ᴷ,ᴸ,ᴹ,ᴺ,ᴼ,ᴾ,ᵠ,ᴿ,ˢ,ᵀ,ᵁ,ⱽ,ᵂ,ˣ,ʸ,ᶻ,ᵃ,ᵇ,ᶜ,ᵈ,ᵉ,ᶠ,ᵍ,ʰ,ⁱ,ʲ,ᵏ,ˡ,ᵐ,ⁿ,ᵒ,ᵖ,ᵠ,ʳ,ˢ,ᵗ,ᵘ,ᵛ,ʷ,ˣ,ʸ,ᶻ,¹,²,³,⁴,⁵,⁶,⁷,⁸,⁹,⁰' ,
          'Ancient Gem 1':'ꍏ,ꌃ,ꉓ,ꀸ,ꍟ,ꎇ,ꁅ,ꃅ,ꀤ,ꀭ,ꀘ,꒒,ꂵ,ꈤ,ꂦ,ꉣ,ꆰ,ꋪ,ꌗ,꓄,ꀎ,ꃴ,ꅏ,ꊼ,ꌩ,ꁴ,ꍏ,ꌃ,ꉓ,ꀸ,ꍟ,ꎇ,ꁅ,ꃅ,ꀤ,ꀭ,ꀘ,꒒,ꂵ,ꈤ,ꂦ,ꉣ,ꆰ,ꋪ,ꌗ,꓄,ꀎ,ꃴ,ꅏ,ꊼ,ꌩ,ꁴ,1,2,3,4,5,6,7,8,9,0',
          'Square Bracket Sans Serif':'⟦A⟧,⟦B⟧,⟦C⟧,⟦D⟧,⟦E⟧,⟦F⟧,⟦G⟧,⟦H⟧,⟦I⟧,⟦J⟧,⟦K⟧,⟦L⟧,⟦M⟧,⟦N⟧,⟦O⟧,⟦P⟧,⟦Q⟧,⟦R⟧,⟦S⟧,⟦T⟧,⟦U⟧,⟦V⟧,⟦W⟧,⟦X⟧,⟦Y⟧,⟦Z⟧,⟦a⟧,⟦b⟧,⟦c⟧,⟦d⟧,⟦e⟧,⟦f⟧,⟦g⟧,⟦h⟧,⟦i⟧,⟦j⟧,⟦k⟧,⟦l⟧,⟦m⟧,⟦n⟧,⟦o⟧,⟦p⟧,⟦q⟧,⟦r⟧,⟦s⟧,⟦t⟧,⟦u⟧,⟦v⟧,⟦w⟧,⟦x⟧,⟦y⟧,⟦z⟧,⟦1⟧,⟦2⟧,⟦3⟧,⟦4⟧,⟦5⟧,⟦6⟧,⟦7⟧,⟦8⟧,⟦9⟧,⟦0⟧',
@@ -263,11 +404,12 @@ if (!isMobile()) {
          'Sword Curvy Cross':'ᗩ,ᗷ,ᑕ,ᗪ,E,ᖴ,G,ᕼ,I,ᒍ,K,ᒪ,ᗰ,ᑎ,O,ᑭ,ᑫ,ᖇ,ᔕ,T,ᑌ,ᐯ,ᗯ,᙭,Y,ᘔ,ᗩ,ᗷ,ᑕ,ᗪ,E,ᖴ,G,ᕼ,I,ᒍ,K,ᒪ,ᗰ,ᑎ,O,ᑭ,ᑫ,ᖇ,ᔕ,T,ᑌ,ᐯ,ᗯ,᙭,Y,ᘔ,౹,੨,੩,੫,Ƽ,Ϭ,Դ,੪,੧,੦' ,
          'Light Bubbles Gem':'Ⓐ,Ⓑ,Ⓒ,Ⓓ,Ⓔ,Ⓕ,Ⓖ,Ⓗ,Ⓘ,Ⓙ,Ⓚ,Ⓛ,Ⓜ,Ⓝ,Ⓞ,Ⓟ,Ⓠ,Ⓡ,Ⓢ,Ⓣ,Ⓤ,Ⓥ,Ⓦ,Ⓧ,Ⓨ,Ⓩ,ⓐ,ⓑ,ⓒ,ⓓ,ⓔ,ⓕ,ⓖ,ⓗ,ⓘ,ⓙ,ⓚ,ⓛ,ⓜ,ⓝ,ⓞ,ⓟ,ⓠ,ⓡ,ⓢ,ⓣ,ⓤ,ⓥ,ⓦ,ⓧ,ⓨ,ⓩ,⓪,①,②,③,④,⑤,⑥,⑦,⑧,⑨,⓪',
          'Underline Text':'A͟,B͟,C͟,D͟,E͟,F͟,G͟,H͟,I͟,J͟,K͟,L͟,M͟,N͟,O͟,P͟,Q͟,R͟,S͟,T͟,U͟,V͟,W͟,X͟,Y͟,Z͟,a͟,b͟,c͟,d͟,e͟,f͟,g͟,h͟,i͟,j͟,k͟,l͟,m͟,n͟,o͟,p͟,q͟,r͟,s͟,t͟,u͟,v͟,w͟,x͟,y͟,z͟,1͟,2͟,3͟,4͟,5͟,6͟,7͟,8͟,9͟,0͟',    //'Underline':"A̠,̠B̠,̠C̠,̠D̠,̠E̠,̠F̠,̠G̠,̠H̠,̠I̠,̠J̠,̠K̠,̠L̠,̠M̠,̠N̠,̠O̠,̠P̠,̠Q̠,̠R̠,̠S̠,̠T̠,̠U̠,̠V̠,̠W̠,̠X̠,̠Y̠,̠Z̠,a̠,̠b̠,̠c̠,̠d̠,̠e̠,̠f̠,̠g̠,̠h̠,̠i̠,̠j̠,̠k̠,̠l̠,̠m̠,̠n̠,̠o̠,̠p̠,̠q̠,̠r̠,̠s̠,̠t̠,̠u̠,̠v̠,̠w̠,̠x̠,̠y̠,̠z̠,̠1̠,̠2̠,̠3̠,̠4̠,̠5̠,̠6̠,̠7̠,̠8̠,̠9̠,0̠",
+         'English Gem':'Ⲁ,Ⲃ,Ⲥ,Ⲇ,Ⲉ,𝓕,𝓖,Ⲏ,Ⲓ,𝓙,Ⲕ,𝓛,Ⲙ,Ⲛ,Ⲟ,Ⲣ,𝓠,Ꞅ,Ϩ,Ⲧ,ⴑ,𝓥,Ⲱ,Ⲭ,Ⲩ,Ⲍ,ⲁ,ⲃ,ⲥ,ⲇ,ⲉ,𝓯,𝓰,ⲏ,ⲓ,𝓳,ⲕ,𝓵,ⲙ,ⲛ,ⲟ,ⲣ,𝓺,ꞅ,𝛓,ⲧ,𐌵,𝓿,ⲱ,ⲭ,ⲩ,ⲍ,1,2,3,4,5,6,7,8,9,0',
          'Monospace Puppy':'𝙰,𝙱,𝙲,𝙳,𝙴,𝙵,𝙶,𝙷,𝙸,𝙹,𝙺,𝙻,𝙼,𝙽,𝙾,𝙿,𝚀,𝚁,𝚂,𝚃,𝚄,𝚅,𝚆,𝚇,𝚈,𝚉,𝚊,𝚋,𝚌,𝚍,𝚎,𝚏,𝚐,𝚑,𝚒,𝚓,𝚔,𝚕,𝚖,𝚗,𝚘,𝚙,𝚚,𝚛,𝚜,𝚝,𝚞,𝚟,𝚠,𝚡,𝚢,𝚣,1,2,3,4,5,6,7,8,9,0' ,
          'Zalgo Level 3':'A̸̦͂̔,̴̘̓̅͋B̷͚̫͊́,̸̘̪̍̍C̷̙͍̍͜,̷̖̆D̴͍̯̻̐͑,̸̧͚̣͊Ḛ̵̤̽̇̚,̷̟̟̑͑F̴̳̞̃̓,̵͕͕̗̅̒G̴͙̋,̷̜͐͂H̶͍̠̩̍̋̾,̸̻̅̈́͜Ḭ̶̰̘̏,̷̢̣̠̉̀J̵̡̉̀̌,̴͔͔̇̀̕K̸͓̿̓͜,̵̰̰̇̎͜L̶̀͐͜,̸͉͚͇̌̿M̵͕̲͓̐,̶̬͖͂̎͋N̴̪͖͑̕̚,̷̟̋̚Ó̴͖ͅ,̸͍̤̎̈̍P̴̠̟͛,̵̖̇͘͝Q̷̬͔́,̸̣̏̕R̷̛̞̪̥̓,̴̧̘͌S̵͚̯̏͛̕,̴̞̀͊͊T̸̮̀̌,̵̟̰̭̎Ȕ̵͎̜̯̓̽,̸̟͛V̴͍̯͙̐̂,̷̯͋W̵̰͊͑,̴͎̭̞̏̚X̴̨͖̙̆,̶̟͌͠Y̸̳̳̤͂̑͋,̸̪̉͋̅Z̵̲͉͖͋,̶̖̮̳̀̿a̸̺̠͚̽͆,̴͗͌͜b̷̫͊̆,̴͓̘͕͒͘c̴̨̐́͋,̵͉̎d̴̫͕̬̿̏,̸̧̻̻́̕e̴̙̖̋,̷̠̈͛f̵̜̠͑́̾,̷͙̀̃͊g̴̱̣͇̈́͘,̸̞͔̀ḧ̴͍́,̶̧̰̐͌i̷̤̍̀̅,̷̠̇̊j̶̭̲͔͋̊,̷͚̞̓k̸͍͙̿,̸̢̻̻̽͐l̸̲̲͙̉͆,̵̨̰̆̾ṃ̴̼̊̓͋,̸̞͈̊ṋ̷͎̌͜,̴̦̽̀ȍ̶̯̰̘̒́,̷̥̊p̷̜̥͒͗,̵̗̱͍̉̉q̶̜̔̀,̶̢̥̅̑͆r̷͕͝,̵͉̤̯̓͋s̶̗͍̃̍̈,̷̥̽͠ẗ̵̢͔́,̸̼̓͑͝ṷ̵͔͆̂,̶͚̩̿̓v̶̟̩̗̈,̷̙̈́͗̌w̵͔͊͐̕,̸͕̆̆x̵͕͕̒,̷̩̝̭̆̚y̷̟̠̐͐̈́,̵̭̯̃z̸̜̮̄͊,̴͉̣̃͑͝1̴̮̯̐̎̉,̴͖̽̈2̸̲́̇,̵̬͚͈̂̂̿3̴̦̹̘̓,̴̠͕̓4̸̰͍͒͌,̷̺̼̖̓̈́5̸̆͐͜,̴̥̽̕͠6̷̖̈͆͐,̸̹͚̏7̶̨̈́,̸̨̤̀8̶̡̲͈̑͋̕,̶̱̬̪̔͒̔9̶̑̄̃ͅ,̸̪̲̈́0̴̢͎̜̂̂͝"̷̳̏̒',
          'Different 2':'𝐀,β,ⓒ,𝓭,𝑒,ⓕ,ᵍ,ⓗ,Ꭵ,ן,ᵏ,𝕃,ｍ,ⓝ,𝓸,Ƥ,ℚ,ⓡ,𝓼,Ｔ,𝓾,v,𝓌,ⓧ,ץ,Ż,𝐚,๒,Ć,𝓭,𝑒,ⓕ,𝕘,𝓱,Ɨ,Ｊ,Ⓚ,ᒪ,м,𝐍,Ø,卩,q,я,丂,𝐓,ย,ｖ,𝔀,x,𝔂,𝓩,➀,❷,➂,４,❺,６,❼,➇,❾,０', 
-
-
+         'Gem Mix 2':'ᗩ,ᗷ,ᑕ,ᗪ,Ⓔ,ᖴ,Ⓖ,ᕼ,Ⓘ,ᒍ,Ⓚ,ᒪ,ᗰ,ᑎ,Ⓞ,ᑭ,ᑫ,ᖇ,ᔕ,Ⓣ,ᑌ,ᐯ,ᗯ,᙭,Ⓨ,ᘔ,ᗩ,ᗷ,ᑕ,ᗪ,Ⓔ,ᖴ,Ⓖ,ᕼ,Ⓘ,ᒍ,Ⓚ,ᒪ,ᗰ,ᑎ,Ⓞ,ᑭ,ᑫ,ᖇ,ᔕ,Ⓣ,ᑌ,ᐯ,ᗯ,᙭,Ⓨ,ᘔ,౹,੨,੩,੫,Ƽ,Ϭ,Դ,੪,੧,੦',
+        
             // Add more fonts here
         };
 
@@ -290,35 +432,42 @@ if (!isMobile()) {
 
                 case  'Math Italic Bold sign':            //  for wrraping every word with emoji 
                     outputBox.style.fontFamily = fontName + ', sans-serif';
-                    afterlogo=surroundWordsWith(convertedText,"❋")
+                    afterlogo=addEmojiToSpaces(convertedText,"❋")
                     outputBox.textContent = afterlogo;
                 break;
                 
-                case  'Crown Fraktur Bold  ':            //  for wrraping every word with emoji 
+                case  'Crown Fraktur Bold':            //  for wrraping every word with emoji 
                     outputBox.style.fontFamily = fontName + ', sans-serif';
-                    afterlogo=addEmojiToSpaces(convertedText,'|')
+                    afterlogo=SeprateEmojisAroundWord(convertedText,"⊶","⊷")
                     outputBox.textContent = afterlogo;
                 break;
 
                 case  'Times New Roman':            //  for wrraping every word with emoji 
                     outputBox.style.fontFamily = fontName + ', sans-serif';
-                    afterlogo=surroundWordsWith(convertedText,"🌸")
+                    afterlogo=addEmojiToSpaces(convertedText,"🌸")
                     outputBox.textContent = afterlogo;
                 break;
 
                 case  'Light Bubbles Gem':            //  for wrraping every char with emoji          
                     outputBox.style.fontFamily = fontName + ', sans-serif';
-                    afterlogo=surroundWordsWith(convertedText,"✠")
+                    afterlogo=addEmojiToSpaces(convertedText,"✠")
                     outputBox.textContent = afterlogo;
                 break;
                                                 
                 case  'Heart Fancy Curvy Font Black': 
                     outputBox.style.fontFamily = fontName + ', sans-serif';
-                    convertedText =surroundWordsWith(convertedText, "🖤") 
+                    convertedText =addEmojiToSpaces(convertedText, "🖤") 
                     outputBox.textContent =convertedText;
                 break;
                 
-              /*
+                case  'Sword Curvy Cross': 
+                    outputBox.style.fontFamily = fontName + ', sans-serif';
+                    convertedText =addEmojiToSpaces(convertedText, "═") 
+                    outputBox.textContent =convertedText;
+                break;
+
+              /* 
+              
                 case  '': 
                     outputBox.style.fontFamily = fontName + ', sans-serif';
                     convertedText =surroundWordsWith(convertedText, "") 
@@ -329,15 +478,15 @@ if (!isMobile()) {
                     outputBox.style.fontFamily = fontName + ', sans-serif';
                     outputBox.textContent = convertedText;
              
-            }
+                }
 
-        }
+            }
         
         index--;
         addSignsToOutput('Gem Arrow Glitch', '»»————', '————⌲'); 
         addSignsToOutput('Curvy Sniper', '▄︻デ', '═══━一 ҉~•');     // Gem Arrow Glitch here add signs to specific font output
-        addSignsToOutput('Covered Mathematical Fraktur ', 'ஜ۞ஜ', 'ஜ۞ஜ');     // here add signs to specific font output
-        addSignsToOutput('Curvy Cross', '♰✟⚚', '⚚✟♰');     //  here add signs to specific font output
+        addSignsToOutput('Covered Mathematical Fraktur ', 'ஜ۞ஜ[ ', ' ]ஜ۞ஜ');     // here add signs to specific font output
+        addSignsToOutput('Curvy Cross', '✟', '✟');     //  here add signs to specific font output
         addSignsToOutput('Monospace Flower', '❀ꗥ～', '～ꗥ❀');     // he      readd signs to specific font output
         addSignsToOutput('Blackboard Bold Gem','█▓▒▒░░░','░░░▒▒▓█');
         addSignsToOutput('Monospace Puppy','ʕ•ᴥ•ʔ','ʕ•ᴥ•ʔ');
@@ -359,6 +508,7 @@ if (!isMobile()) {
        'Wizard sniper':' ǟ,ɮ,ƈ,ɖ,ɛ,ʄ,ɢ,ɦ,ɨ,ʝ,ӄ,ʟ,ʍ,ռ,օ,ք,զ,ʀ,ֆ,ȶ,ʊ,ʋ,ա,Ӽ,ʏ,ʐ,ǟ,ɮ,ƈ,ɖ,ɛ,ʄ,ɢ,ɦ,ɨ,ʝ,ӄ,ʟ,ʍ,ռ,օ,ք,զ,ʀ,ֆ,ȶ,ʊ,ʋ,ա,Ӽ,ʏ,ʐ,1,2,3,4,5,6,7,8,9,0',
        'Fraktur Box':'[𝖆̲̅],[𝖇̲̅],[𝖈̲̅],[𝖉̲̅],[𝖊̲̅],[𝖋̲̅],[𝖌̲̅],[𝖍̲̅],[𝖎̲̅],[𝖏̲̅],[𝖐̲̅],[𝖑̲̅],[𝖒̲̅],[𝖓̲̅],[𝖔̲̅],[𝖕̲̅],[𝖖̲̅],[𝖗̲̅],[𝖘̲̅],[𝖙̲̅],[𝖚̲̅],[𝖛̲̅],[𝖜̲̅],[𝖝̲̅],[𝖞̲̅],[𝖟̲̅],[𝖆̲̅],[𝖇̲̅],[𝖈̲̅],[𝖉̲̅],[𝖊̲̅],[𝖋̲̅],[𝖌̲̅],[𝖍̲̅],[𝖎̲̅],[𝖏̲̅],[𝖐̲̅],[𝖑̲̅],[𝖒̲̅],[𝖓̲̅],[𝖔̲̅],[𝖕̲̅],[𝖖̲̅],[𝖗̲̅],[𝖘̲̅],[𝖙̲̅],[𝖚̲̅],[𝖛̲̅],[𝖜̲̅],[𝖝̲̅],[𝖞̲̅],[𝖟̲̅],[1̲̅],[੨̲̅],[੩̲̅],[੫̲̅],[Ƽ̲̅],[Ϭ̲̅],[Դ̲̅],[੪̲̅],[੧̲̅],[੦̲̅]',
        'Asthetic':"Ꭿ,Ᏸ,Ꮸ,Ꭰ,Ꭼ,Ꮀ,Ꮆ,Ꮋ,Ꭸ,Ꮰ,Ꮶ,Ꮭ,Ꮇ,Ꮑ,Ꮎ,Ꮲ,Ꮕ,Ꮢ,Ꮥ,Ꮏ,Ꮼ,Ꮙ,Ꮿ,Ꮂ,Ꮍ,Ꮓ,Ꭿ,Ᏸ,Ꮸ,Ꭰ,Ꭼ,Ꮀ,Ꮆ,Ꮋ,Ꭸ,Ꮰ,Ꮶ,Ꮭ,Ꮇ,Ꮑ,Ꮎ,Ꮲ,Ꮕ,Ꮢ,Ꮥ,Ꮏ,Ꮼ,Ꮙ,Ꮿ,Ꮂ,Ꮍ,Ꮓ,1,2,3,4,5,6,7,8,9,0" ,
+       'Italic Gem':'ᗩ,ᗷ,ᑕ,ↁ,ᕮ,Բ,Ꮆ,ᕼ,ᓰ,Ｊ,𐌊,し,Ⲙ,Ɲ,〇,ᖘ,Ⴓ,ᖇ,⟆,Ƭ,ᑌ,⋎,ᗯ,Ⲭ,Ⴤ,Ⲍ,Ꭿ,ᑲ,⊂,ᖙ,∈,⨍,ɢ,Ꮒ,⫯,Ｊ,ⲕ,𝘭,ⲙ,ﬡ,ᗝ,ᖰ,ᖳ,ᖇ,⟆,𝜏,υ,ʋ,ⲱ,ⲭ,Ⴘ,ⲍ,1,2,3,4,5,6,7,8,9,0',
        'Cyrillic':'А,Б,С,Д,Є,F,ɠ,Н,Ї,J,К,Г,Ѫ,Й,Ѳ,P,Ф,Я,$,T,Ц,Ѵ,Ш,Ж,Ч,З,а,в,c,д,ё,f,g,н,ї,j,к,ʅ,ѫ,п,ѳ,p,ф,я,$,т,ц,ѵ,щ,ж,ч,з,1,2,3,4,5,6,7,8,9,0',
        'Cross Math  Serif Italic Bold':'𝑨,𝑩,𝑪,𝑫,𝑬,𝑭,𝑮,𝑯,𝑰,𝑱,𝑲,𝑳,𝑴,𝑵,𝑶,𝑷,𝑸,𝑹,𝑺,𝑻,𝑼,𝑽,𝑾,𝑿,𝒀,𝒁,𝒂,𝒃,𝒄,𝒅,𝒆,𝒇,𝒈,𝒉,𝒊,𝒋,𝒌,𝒍,𝒎,𝒏,𝒐,𝒑,𝒒,𝒓,𝒔,𝒕,𝒖,𝒗,𝒘,𝒙,𝒚,𝒛,1,2,3,4,5,6,7,8,9,0', 
        'Lefthanded Fancy':' α,ɓ,૮,∂,ε,ƒ,ɠ,ɦ,เ,ʝ,ҡ,ℓ,ɱ,ɳ,σ,ρ,φ,૨,ร,ƭ,µ,ѵ,ω,א,ყ,ƶ,α,ɓ,૮,∂,ε,ƒ,ɠ,ɦ,เ,ʝ,ҡ,ℓ,ɱ,ɳ,σ,ρ,φ,૨,ร,ƭ,µ,ѵ,ω,א,ყ,ƶ,1,2,3,4,5,6,7,8,9,0',
@@ -426,13 +576,13 @@ if (!isMobile()) {
 
                     case  'Fancy Curvy Flower'  :            //  for wrraping every word with emoji 
                      outputBox.style.fontFamily = fontName + ', sans-serif';
-                     afterlogo=surroundWordsWith(convertedText,"❀")
+                     afterlogo=addEmojiToSpaces(convertedText,"❀")
                      outputBox.textContent = afterlogo;
                     break;
                     
                     case  'Flower Times New Roman':            //  for wrraping every word with emoji 
                       outputBox.style.fontFamily = fontName + ', sans-serif';
-                      afterlogo=surroundWordsWith(convertedText,"🌸")
+                      afterlogo=addEmojiToSpaces(convertedText,"🌸")
                       outputBox.textContent = afterlogo;
                     break;
 
@@ -538,14 +688,14 @@ if (!isMobile()) {
                 switch(fontName){  
 
                     case  'Fancy Curvy Flower'  :            //  for wrraping every word with emoji 
-                     outputBox.style.fontFamily = fontName + ', sans-serif';
-                     afterlogo=surroundWordsWith(convertedText,"❀")
-                     outputBox.textContent = afterlogo;
+                    outputBox.style.fontFamily = fontName + ', sans-serif';
+                    afterlogo=addEmojiToSpaces(convertedText,"❀")
+                    outputBox.textContent = afterlogo;
                    break;
                    
                    case  'Flower Times New Roman':            //  for wrraping every word with emoji 
                      outputBox.style.fontFamily = fontName + ', sans-serif';
-                     afterlogo=surroundWordsWith(convertedText,"🌸")
+                     afterlogo=addEmojiToSpaces(convertedText,"🌸")
                      outputBox.textContent = afterlogo;
                    break;
 
@@ -693,7 +843,40 @@ if (!isMobile()) {
     function addEmojiToSpaces(str, emoji) {
         return str.split(' ').join(emoji);
     }
+    
 
+    function SeprateEmojisAroundWord(text, leftEmoji, rightEmoji) {
+        // Split the text by spaces to get individual words
+        const words = text.split(" ");
+      
+        // Add left and right emoji to each word
+        const modifiedWords = words.map(word => `${leftEmoji}${word}${rightEmoji}`);
+      
+        // Join the words back into a string with spaces in between
+        return modifiedWords.join(" ");
+    }
+
+
+    function addtwoSignsaroundchar (text, sign1, sign2) {
+        return Array.from(text).map(char => {
+            return char === ' ' ? char : sign1 + char + sign2;
+        }).join('');
+    }
+
+
+    function surroundWordsWith(text, sign) { //add signs around text 
+        // Split the text into words
+        const words = text.split(/\s+/);
+    
+        // Surround each word with the sign
+        const surroundedWords = words.map(word => `${sign}${word}${sign}`);
+    
+        // Join the surrounded words back into a single string
+        return surroundedWords.join(" ");
+    }
+
+
+    
 
     function reverseText(convertedText) {
         // Convert the string to an array of code points
@@ -720,26 +903,6 @@ if (!isMobile()) {
         }
 
     }
-
-
-    function addtwoSignsaroundchar (text, sign1, sign2) {
-        return Array.from(text).map(char => {
-            return char === ' ' ? char : sign1 + char + sign2;
-        }).join('');
-    }
-
-
-    function surroundWordsWith(text, sign) { //add signs around text 
-        // Split the text into words
-        const words = text.split(/\s+/);
-    
-        // Surround each word with the sign
-        const surroundedWords = words.map(word => `${sign}${word}${sign}`);
-    
-        // Join the surrounded words back into a single string
-        return surroundedWords.join(" ");
-    }
-
 
     
     const eraseLogo = document.getElementById('eraseLogo');
