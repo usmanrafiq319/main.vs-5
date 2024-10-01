@@ -24,11 +24,10 @@
     if (e.key === 'Enter') {
         e.preventDefault();
         // Add any custom logic if needed
-    }
-  });
+    }});
 
     // Function to shuffle an array (Fisher-Yates algorithm)
-function shuffleArray(array) {
+    function shuffleArray(array) {
     for (let i = array.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
         [array[i], array[j]] = [array[j], array[i]]; // Swap elements
@@ -36,100 +35,66 @@ function shuffleArray(array) {
     return array;
 }
 
-// Function to generate a nickname based on the input text or randomly
-function generateNickname(name = "", usedCombinations) {
+
+
+   // Function to generate a nickname based on the input text or randomly
+function generateNickname(name = "") {
     const nameParts = name.split(" ").filter(Boolean); // Split and remove empty parts
-    let prefixes = [
+    const prefixes = [
         'Phantom', 'Shadow', 'Storm', 'Blaze', 'Venom', 'Titan',
         'Vortex', 'Inferno', 'Fury', 'Thunder', 'Apex', 'Ghost',
         'Savage', 'Rage', 'Death', 'Eclipse', 'Omega', 'Night',
         'Hunter', 'Iron', 'Chaos', 'Nova', 'Dragon', 'Ultra'
     ];
 
-    let suffixes = [
+    const suffixes = [
         'Slayer', 'Reaper', 'Rider', 'Breaker', 'Stalker', 'Warlord',
-        'Sniper', 'Killer', '♔King', 'Master', 'Emperor', 'Legend',
+        'Sniper', 'Killer', 'King', 'Master', 'Emperor', 'Legend',
         'Wizard', 'Crusader', 'Champion', 'Guru', 'Beast', 'Warrior',
         'Ninja', 'Assassin', 'Warrior', 'Knight', 'Predator', 'Bringer'
     ];
 
-    // Shuffle the arrays to ensure diversity in selection
-    prefixes = shuffleArray(prefixes);
-    suffixes = shuffleArray(suffixes);
-
-    // Randomly select prefix and suffix
+    // Randomly select a prefix and suffix
     const randomPrefix = prefixes[Math.floor(Math.random() * prefixes.length)];
     const randomSuffix = suffixes[Math.floor(Math.random() * suffixes.length)];
-    
-    // Adjusted pattern range to include more unique combinations
-    const pattern = Math.floor(Math.random() * 7); // Patterns: 0 to 6
 
     let nickname = "";
 
-    switch (pattern) {
-        case 0:
-            // Single word from prefixes
-            nickname = randomPrefix;
-            break;
-        case 1:
-            // Prefix + First name part
-            if (nameParts.length > 0) {
-                nickname = `${randomPrefix} ${nameParts[0]}`;
-            } else {
-                nickname = randomPrefix;
-            }
-            break;
-        case 2:
-            // First name part + Suffix
-            if (nameParts.length > 0) {
-                nickname = `${nameParts[0]} ${randomSuffix}`;
-            } else {
-                nickname = randomSuffix;
-            }
-            break;
-        case 3:
-            // Prefix + Last name part
-            if (nameParts.length > 1) {
-                nickname = `${randomPrefix} ${nameParts[nameParts.length - 1]}`;
-            } else {
-                nickname = `${randomPrefix} ${nameParts[0] || ''}`.trim();
-            }
-            break;
-        case 4:
-            // Prefix + Full name
-            if (nameParts.length > 0) {
-                nickname = `${randomPrefix} ${name}`;
-            } else {
-                nickname = randomPrefix;
-            }
-            break;
-        case 5:
-            // Full name + Suffix
-            if (nameParts.length > 0) {
-                nickname = `${name} ${randomSuffix}`;
-            } else {
-                nickname = randomSuffix;
-            }
-            break;
-        case 6:
-            // Prefix + Suffix without any name parts (two-word combination)
-            nickname = `${randomPrefix} ${randomSuffix}`;
-            break;
+    // Handle cases when there is no input
+    if (!nameParts.length) {
+        // Choose either a prefix or a prefix + suffix
+        nickname = Math.random() > 0.5 ? randomPrefix : `${randomPrefix} ${randomSuffix}`;
+    } else {
+        // Randomly choose among four patterns (with input)
+        const pattern = Math.floor(Math.random() * 4);
+        
+        // Prioritize the first word, but also allow for random selection from input
+        const firstWord = nameParts[0];
+        const randomWord = nameParts[Math.floor(Math.random() * nameParts.length)];
+
+        switch (pattern) {
+            case 0: // Use prefix + first word
+                nickname = `${randomPrefix} ${firstWord}`;
+                break;
+            case 1: // Use random word + suffix
+                nickname = `${randomWord} ${randomSuffix}`;
+                break;
+            case 2: // Use only the first word but ensure it includes a prefix
+                nickname = randomPrefix; // Ensure a prefix is included
+                break;
+            case 3: // Use prefix + suffix combination
+                nickname = `${randomPrefix} ${randomSuffix}`;
+                break;
+            default:
+                nickname = `${randomPrefix} ${firstWord}`;
+        }
     }
 
-    // Limit the resulting nickname to a maximum of 3 words
+    // Limit the resulting nickname to a maximum of 2 words
     const nicknameWords = nickname.split(" ").filter(Boolean);
-    if (nicknameWords.length > 3) {
-        nickname = nicknameWords.slice(0, 3).join(" ");
+    if (nicknameWords.length > 2) {
+        nickname = nicknameWords.slice(0, 2).join(" ");
     }
-
-    // Avoid generating a name that's already been used
-    if (usedCombinations.has(nickname)) {
-        return generateNickname(name, usedCombinations); // Try generating again recursively
-    }
-
-    // Add to the used combinations set
-    usedCombinations.add(nickname);
 
     return nickname.trim();
 }
@@ -138,25 +103,43 @@ function generateNickname(name = "", usedCombinations) {
 const inputElement = document.getElementById('inputText');
 const nicknameBox = document.getElementById('nicknameBox');
 
-// Function to update the nickname box with 50 generated names
+// Function to update the nickname box with 50 generated names (distributed into two rows)
 function updateNicknameBox(name = "") {
     nicknameBox.innerHTML = ""; // Clear existing nicknames
-    const usedCombinations = new Set(); // Track used combinations
 
+    // Create two separate rows inside the nicknameBox
+    const nicknameRow1 = document.createElement('div');
+    nicknameRow1.classList.add('nickname-row');
+
+    const nicknameRow2 = document.createElement('div');
+    nicknameRow2.classList.add('nickname-row');
+
+    // Generate 50 names and evenly distribute them between the two rows
     for (let i = 0; i < 50; i++) {
-        const nickname = generateNickname(name, usedCombinations);
+        const nickname = generateNickname(name);
+
+        // Create a separate clickable box for each nickname
         const nicknameItem = document.createElement('span');
         nicknameItem.textContent = nickname;
         nicknameItem.classList.add('nickname-item');
 
-        // Add click event to update inputText with clicked nickname
+        // Add click event to update inputText with the clicked nickname
         nicknameItem.addEventListener('click', () => {
             inputElement.value = nickname; // Update input field
             inputElement.dispatchEvent(new Event('input')); // Manually trigger input event
         });
 
-        nicknameBox.appendChild(nicknameItem);
+        // Alternate placing names into two rows
+        if (i % 2 === 0) {
+            nicknameRow1.appendChild(nicknameItem); // Even indices go to the first row
+        } else {
+            nicknameRow2.appendChild(nicknameItem); // Odd indices go to the second row
+        }
     }
+
+    // Append both rows to the main nicknameBox
+    nicknameBox.appendChild(nicknameRow1);
+    nicknameBox.appendChild(nicknameRow2);
 }
 
 // Initial nickname generation (50 random nicknames)
@@ -167,6 +150,7 @@ inputElement.addEventListener('input', function () {
     const name = inputElement.value.trim();
     updateNicknameBox(name);
 });
+
 
     
     // Call convertText function on page load

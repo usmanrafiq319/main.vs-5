@@ -117,28 +117,41 @@ body {
 }
 
 #nicknameBox {
+    display: block; /* Allow rows to be stacked inside */
+    overflow-x: auto; /* Enable horizontal scrolling */
+    overflow-y: hidden; /* Prevent vertical scrolling */
     border: 1px solid #ccc;
     width: 80%;
     margin: 20px auto;
     padding: 15px;
     background-color: #f9f9f9;
-    overflow-y: auto;
-    max-height: 300px;
+    max-height: 150px; /* Control the height to fit two rows */
     border-radius: 10px;
+    white-space: nowrap; /* Prevent line breaks inside */
 }
+
+.nickname-row {
+    display: flex; /* Horizontally align items in a row */
+    flex-wrap: nowrap; /* Prevent wrapping */
+    margin: 5px 0; /* Margin between rows */
+}
+
 .nickname-item {
-    display: inline-block;
+    display: inline-block; /* Keep each item inline */
     background-color: #eee;
     border: 1px solid #ddd;
     padding: 5px 10px;
-    margin: 5px;
+    margin: 5px; /* Space around each nickname */
     border-radius: 5px;
     cursor: pointer;
     transition: 0.2s;
 }
+
 .nickname-item:hover {
     background-color: #ddd;
 }
+
+
 
 .fonts-catagory{
     position: sticky;
