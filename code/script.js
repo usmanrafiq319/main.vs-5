@@ -163,19 +163,19 @@ inputElement.addEventListener('input', function () {
     }
 
     // Get the input box element
-const inputBox = document.getElementById('inputText');
+   const inputBox = document.getElementById('inputText');
 
-// Auto-focus the input box only if not on a mobile device or tablet
-if (!isMobile()) {
-    inputBox.focus();
+   // Auto-focus the input box only if not on a mobile device or tablet
+   if (!isMobile()) {
+       inputBox.focus();
 
-    // Listen for any keypress and ensure it goes to the input box
-    document.addEventListener('keydown', (event) => {
-        if (document.activeElement !== inputBox) {
-            inputBox.focus(); // Refocus the input box if it's not focused
-        }
-    });
-}
+       // Listen for any keypress and ensure it goes to the input box
+        document.addEventListener('keydown', (event) => {
+           if (document.activeElement !== inputBox) {
+             inputBox.focus(); // Refocus the input box if it's not focused
+            }
+        });
+    }
     
 
     // Add input event listener
@@ -197,56 +197,86 @@ if (!isMobile()) {
             // Add signs after loading more fonts, only if not added before
         });
 
-    } else {
-
-      console.error("Load More Fonts button not found.");
-
-    }
+    } 
                              
    
-        function copyToClipboard(elementId) {
-    const element = document.getElementById(elementId);
-    const range = document.createRange();
-    const selection = window.getSelection();
-
-    // Clear any current selection
-    selection.removeAllRanges();
-
-    // Select the text within the specified element
-    range.selectNodeContents(element);
-    selection.addRange(range);
-
-    // Execute the copy command
-    try {
-        document.execCommand('copy');
-    } catch (err) {
-        console.error('Failed to copy text: ', err);
-    }
-
-    // Get the copied HTML
-    const copiedHTML = element.innerHTML;
-
-    // Clear the selection
-    selection.removeAllRanges();
-
-    // Remove any existing notification
-    let existingNotification = document.querySelector('.notification');
-    if (existingNotification) {
-        existingNotification.remove();
-    }
-
-    // Create a notification to indicate copied text
-    const notification = document.createElement('div');
-    notification.classList.add('notification');
-    notification.innerHTML = `Copied Text: ${copiedHTML}`;  // Show copied HTML in the notification
-    document.body.appendChild(notification);
-
-    // Remove the notification after 71 seconds (matching CSS animation duration)
-    setTimeout(() => {
-        notification.remove();
-    }, 7000);
-}
-
+    function copyToClipboard(elementId) {
+        const element = document.getElementById(elementId);
+        const range = document.createRange();
+        const selection = window.getSelection();
+      
+        // Clear any current selection
+        selection.removeAllRanges();
+      
+        // Select the text within the specified element
+        range.selectNodeContents(element);
+        selection.addRange(range);
+      
+        // Execute the copy command
+        try {
+          document.execCommand('copy');
+        } catch (err) {
+          console.error('Failed to copy text: ', err);
+        }
+      
+        // Get the copied HTML
+        const copiedHTML = element.innerHTML;
+      
+        // Clear the selection
+        selection.removeAllRanges();
+      
+        // Remove any existing notification
+        let existingNotification = document.querySelector('.notification');
+        if (existingNotification) {
+          existingNotification.remove();
+        }
+      
+        // Create a notification to indicate copied text
+        const notification = document.createElement('div');
+        notification.classList.add('notification');
+        notification.innerHTML = `Copied Text: ${copiedHTML}`;  // Show copied HTML in the notification
+      
+        // Create a close button (cross sign) for the notification
+        const closeButton = document.createElement('span');
+        closeButton.innerHTML = '&times;';  // HTML entity for a cross sign
+        closeButton.classList.add('close-button');  // Add a CSS class for styling the close button
+      
+        // Add event listener to the close button to remove the notification
+        closeButton.addEventListener('click', () => {
+          notification.remove();
+        });
+      
+        // Create the "Decorate Text" button with the CSS class
+        const decorateButton = document.createElement('button');
+        decorateButton.innerHTML = '✨ Decorate Text ✨';  // Button text with emoji
+        decorateButton.classList.add('decorate-button');  // Add the CSS class to the button
+      
+        // Add event listener for the button to replace text and redirect
+        decorateButton.addEventListener('click', () => {
+          // Replace innerText of the element with id "inputText"
+          const inputTextElement = document.getElementById('inputText');
+          if (inputTextElement) {
+            inputTextElement.innerText = copiedHTML;
+          }
+          // Redirect to the specified page
+          window.location.href = 'https://yourlink.com'; // Replace with your link
+        });
+      
+        // Append the close button to the notification
+        notification.appendChild(closeButton);
+      
+        // Append the "Decorate Text" button to the notification
+        notification.appendChild(decorateButton);
+      
+        // Append the notification to the body
+        document.body.appendChild(notification);
+      
+        // Remove the notification after 7 seconds
+        setTimeout(() => {
+          notification.remove();
+        }, 70000);
+      }
+      
         
               
 

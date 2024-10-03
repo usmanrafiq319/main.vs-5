@@ -454,21 +454,27 @@ body {
 .hidden {
     display: none;
 }
+  
+/* Notification styling */
 .notification {
     position: fixed;
     bottom: 20px;
-    right: 20px;
-    background-color: #0162ca;
-    color: white;
-    padding: 10px 20px;
-    border-radius: 5px;
-    animation: fadeOut 7s forwards;
-    z-index: 100;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 3D shadow effect */
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 25px;
+    background: #f0f0f0;
+    animation: fadeOut 70s forwards;
+    border: 2px solid #0162ca;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    text-align: center;
+    z-index: 1000;
+    font-size: x-large;
+    min-width: 200px;
+    color: #333333; /* Set text color */
+  }
 
-}
-
-@keyframes fadeOut {
+  @keyframes fadeOut {
     0% {
         opacity: 1;
     }
@@ -480,3 +486,49 @@ body {
         visibility: hidden;
     }
 }
+  
+/* Close button styling */
+.close-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 20px; /* Slightly reduce font size for better fit */
+    color: #888;
+    background-color: transparent; /* Default background is transparent */
+    transition: color 0.2s ease, background-color 0.2s ease; /* Smooth transition */
+    width: 24px; /* Equal width */
+    height: 24px; /* Equal height */
+    line-height: 24px; /* Center the text vertically */
+    text-align: center; /* Center the text horizontally */
+    border-radius: 50%; /* Perfect circle */
+  }
+  
+  /* Close button hover effect */
+  .close-button:hover {
+    color: #333333; /* Set text color */
+    background-color: rgba(0, 0, 0, 0.1); /* Add a semi-transparent background on hover */
+  }
+  
+  /* Button styling */
+  .decorate-button {
+    display: block;
+    padding: 10px 15px;
+    margin: 15px auto 0;  /* Centered at the bottom */
+    font-size: 16px;
+    background-color: #6200ea;
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  /* Button hover effect */
+  .decorate-button:hover {
+    background-color: #3700b3;
+  }
+  
+
+
