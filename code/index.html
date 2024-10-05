@@ -3,71 +3,60 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Font Converter</title>
+    <title>Text Decoration Tool</title>
     <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-    <div class="my-custom-container-main">
-        <h2>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam, pariatur! Possimus, sunt dicta? Pariatur eveniet quas alias quis? Veniam animi sint dolore, aspernatur laboriosam corporis ex nobis error delectus assumenda.</h2>
-        
-        <div class="tool-container">
-            <div class="fix-container">
-                <div class="inputmenu-container">
-                    <div class="input-container">
-                        <textarea id="inputText" class="my-input-box" placeholder=""autofocus></textarea>
-                        <div id="eraseLogo">
-                            <svg class="close-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            </svg>
-                        </div>
-                    </div>
+    <div class="container">
+        <h1>Text Decoration Tool</h1>
 
-                    <div class="menu-container">
-                        <div class="border-sign left-sign"><i class="fas fa-chevron-left"></i></div>
-                        <div class="fonts-menu">
-                            <div class="fonts-menu-item" data-url="https://chatgpt.com/c/7010c6d4-d1ba-47ef-bb3b-8e452ca81760"><div class="menu-item-bold">A</div>Font 1</div>
-                            <div class="fonts-menu-item" data-url="font2.html">𝕖 𝕗𝕔 𝕖</div>
-                            <div class="fonts-menu-item" data-url="font3.html">Font 3</div>
-                            <div class="fonts-menu-item" data-url="font4.html">Font 4</div>
-                            <div class="fonts-menu-item" data-url="font5.html">Font 5</div>
-                            <div class="fonts-menu-item" data-url="font6.html">Font 6</div>
-                            <div class="fonts-menu-item" data-url="font7.html">Font 7</div>
-                            <div class="fonts-menu-item" data-url="font8.html">Font 8</div>
-                            <div class="fonts-menu-item" data-url="font9.html">Font 9</div>
-                            <div class="fonts-menu-item" data-url="font10.html">Font 10</div>
-                            <div class="fonts-menu-item" data-url="font11.html">Font 11</div>
-                            <div class="fonts-menu-item" data-url="font12.html">Font 12</div>
-                            <div class="fonts-menu-item" data-url="font13.html">Font 13</div>
-                            <div class="fonts-menu-item" data-url="font14.html">Font 14</div>
-                            <div class="fonts-menu-item" data-url="font15.html">Font 15</div>
-                            <div class="fonts-menu-item" data-url="font16.html">Font 16</div>
-                            <div class="fonts-menu-item" data-url="font17.html">Font 17</div>
-                            <div class="fonts-menu-item" data-url="font18.html">Font 18</div>
-                            <div class="fonts-menu-item" data-url="font19.html">Font 19</div>
-                            <div class="fonts-menu-item" data-url="font20.html">Font 20</div>
-                        </div>
-                        <div class="border-sign right-sign"><i class="fas fa-chevron-right"></i></div>
-                    </div>
-                </div>
-                
-            </div>
-            <div id="nicknameBox">Your generated nicknames will appear here...</div>
+        <!-- Text Input Area -->
+        <textarea id="inputText" placeholder="Type your text here..."></textarea>
 
-            <div class="output-container">
-             <button id="loadMoreFonts" class="loadMoreFonts-button">Load More Fonts</button> 
+        <!-- Character Style Section -->
+        <div class="style-section">
+            <h2>Character Styles</h2>
+            <div class="scrollable-container">
+                <div class="button-group" id="charButtonsRow1"></div>
+                <div class="button-group" id="charButtonsRow2"></div>
             </div>
+            <button id="removeCharButton" class="remove-btn">Remove Character Style</button>
         </div>
 
-        
-        <h2>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam, pariatur! Possimus, sunt dicta? Pariatur eveniet quas alias quis? Veniam animi sint dolore, aspernatur laboriosam corporis ex nobis error delectus assumenda.</h2>
-        <h2>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam, pariatur! Possimus, sunt dicta? Pariatur eveniet quas alias quis? Veniam animi sint dolore, aspernatur laboriosam corporis ex nobis error delectus assumenda.</h2>
-        <h2>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam, pariatur! Possimus, sunt dicta? Pariatur eveniet quas alias quis? Veniam animi sint dolore, aspernatur laboriosam corporis ex nobis error delectus assumenda.</h2>
-        <h2>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam, pariatur! Possimus, sunt dicta? Pariatur eveniet quas alias quis? Veniam animi sint dolore, aspernatur laboriosam corporis ex nobis error delectus assumenda.</h2>
-        <h2>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam, pariatur! Possimus, sunt dicta? Pariatur eveniet quas alias quis? Veniam animi sint dolore, aspernatur laboriosam corporis ex nobis error delectus assumenda.</h2>
+        <!-- Word Style Section -->
+        <div class="style-section">
+            <h2>Word Styles</h2>
+            <div class="scrollable-container">
+                <div class="button-group" id="wordButtonsRow1"></div>
+                <div class="button-group" id="wordButtonsRow2"></div>
+            </div>
+            <button id="removeWordButton" class="remove-btn">Remove Word Style</button>
+        </div>
 
-        
+        <!-- Space Replacement Section -->
+        <div class="style-section">
+            <h2>Space Styles</h2>
+            <div class="scrollable-container">
+                <div class="button-group" id="spaceButtonsRow1"></div>
+                <div class="button-group" id="spaceButtonsRow2"></div>
+            </div>
+            <button id="removeSpaceButton" class="remove-btn">Remove Space Style</button>
+        </div>
+
+        <!-- Full Text Style Section -->
+        <div class="style-section">
+            <h2>Full Text Styles</h2>
+            <div class="scrollable-container">
+                <div class="button-group" id="fullTextButtonsRow1"></div>
+                <div class="button-group" id="fullTextButtonsRow2"></div>
+            </div>
+            <button id="removeFullTextButton" class="remove-btn">Remove Full Text Style</button>
+        </div>
+
+        <!-- Output Section -->
+        <div id="outputSection" class="output-section"></div>
     </div>
+
     <script src="script.js"></script>
 </body>
 </html>
