@@ -1,3 +1,6 @@
+
+ document.addEventListener("DOMContentLoaded", function() {
+
 // Variables to track the current styles
 let currentFullTextStyle = null;
 let currentWordStyle = null;
@@ -13,8 +16,6 @@ function applyModifications() {
     if (currentCharStyle) {
         if (currentCharStyle.type === 'doubleChar') {
             modifiedText = addTwoSignsAroundChars(modifiedText, currentCharStyle.sign1, currentCharStyle.sign2);
-        } else if (currentCharStyle.type === 'aroundChars') {
-            modifiedText = insertEmojiAroundChars(modifiedText, currentCharStyle.emoji);
         } else {
             modifiedText = insertEmojiBetweenChars(modifiedText, currentCharStyle.emoji);
         }
@@ -37,6 +38,9 @@ function applyModifications() {
 
     document.getElementById('outputSection').textContent = modifiedText;
 }
+
+// Add an event listener for dynamic input changes
+document.getElementById('inputText').addEventListener('input', applyModifications);
 
 
 function createScrollButtons(container1Id, container2Id, container3Id, container4Id, styles, descriptor, applyCallback) {
@@ -103,10 +107,9 @@ function wordStyleDescriptor(style) {
 function charStyleDescriptor(style) {
     if (style.type === 'doubleChar') {
         return `${style.sign1}A${style.sign2}`;
-    } else if (style.type === 'aroundChars') {
-        return ` ${style.emoji}A${style.emoji}`;
+    } else {
+        return `A${style.emoji}B`;
     }
-    return `A${style.emoji}B`;
 }
 
 function spaceStyleDescriptor(style) {
@@ -132,40 +135,172 @@ function applySpaceStyle(style) {
 
 // Button style arrays
 const fullTextStyles = [
-    { start: '▄︻デ', end: '═══━一 ҉~•' }, 
-    { start: '»»————', end: '————⌲' }, 
-    { start: '▬▬ι══', end: '═════ﺤ' }, { start: '▄︻デ', end: '═══━一 ҉~•' }, 
-    { start: '»»————', end: '————⌲' }, 
-    { start: '▬▬ι══', end: '═════ﺤ' }
+    { start: '▄︻デ', end: '═══━一 ҉~•' }, { start: '»»————', end: '————⌲' }, 
+    { start: '▬▬ι══', end: '═════ﺣ' }, { start: '▄︻デ', end: '═══━一 ҉~•' }, 
+    { start: '»»————', end: '————⌲' },  { start: '▬▬ι══', end: '═════ﺣ' },
+    { start: '⚛》》》', end: '《《《⚛' }, { start: '✯¸.•´*¨`*•✿', end: '✿•*`¨*`•.¸✯' }, 
+    { start: '.·͙*̩̩͙˚̩̥̩̥*̩̩̥͙', end: '*̩̩̥͙˚̩̥̩̥*̩̩͙‧͙ .' }, { start: '◦•●◉✿', end: '✿◉●•◦' }, 
+    { start: ' ┈ ⋞ 〈', end: '〉 ⋟ ┈' },  { start: '·͙⁺˚*•̩̩͙✩•̩̩͙*˚⁺‧', end: '‧⁺˚*•̩̩͙✩•̩̩͙*˚⁺‧͙' },
+    { start: '»»——⍟', end: '⍟——««' }, { start: '══✿══╡°˖✧', end: '✧˖°╞══✿══' }, 
+    { start: '╔════ ✿ ❀', end: '✿ ❀ ════╗' }, { start: '✎ (❁ᴗ͈ˬᴗ͈) ༉‧ ♡*', end: '✎ (❁ᴗ͈ˬᴗ͈) ༉‧ ♡*' }, 
+    { start: '╚══ ❀•°', end: '°•❀ ══╝' },  { start: '•┈••✦ 🌹', end: '🌹 ✦••┈•' },
+    { start: '≪ ◦ ❖', end: '❖ ◦ ≫' }, { start: '.·:*¨༺', end: '༻¨*:·.' }, 
+    { start: '╚════▣', end: '▣════╝' }, { start: '╔════▣', end: '▣════╗' }, 
+    { start: ' ▄▀▄▀▄▀▄▀', end: '▀▄▀▄▀▄▀▄' },  { start: '█ ✪ █▓▓▓', end: '▓▓▓█ ✪ █' },
+    { start: '❢◥ ▬▬▬', end: '▬▬▬ ◤❢' }, { start: '◤◢◣◥', end: '◤◢◣◥' }, 
+    { start: '✺✳ ┅', end: '┅ ✳✺' }, { start: '╔═✬✩══╡', end: '╞══✩✬══╗' }, 
+    { start: '┗━━•❅❈❅•━━┛', end: '┗━━•❅❈❅•━━┛' },  { start: '•┈••✦❤', end: '❤✦••┈•' },
+    { start: '───※', end: '※───' }, { start: '✧⋄⋆⋅⋆⋄', end: '⋄⋆⋅⋆⋄✧' }, 
+    { start: '* . °•★|•°∵', end: '∵°•|☆•° . *' }, { start: '❣→→❣ ', end: ' ❣←←❣' }, 
+    { start: '❤ » —— ╫ ❲ ', end: ' ❳ ╫ —— « ❤' }, { start: '۩❦۩¤═══¤ ', end: ' ¤═══¤۩❦۩' },
+    { start: '╚══《 ', end: ' 》══╝' }, { start: '┍━☽【❖ ', end: ' ❖】☾━┑' }, 
+    { start: '┌─── ∘°❉ ', end: ' ❉°∘ ───┐' }, { start: '┗━━━━━༻❁ ', end: ' ❁༺━━━━━┛' }, 
+    { start: '╰ ─┉─¡! • ', end: ' • !¡─┉─ ╯' }, { start: '┏━✦❘༻ ', end: ' ༺❘✦━┓' }, 
+    { start: '•════◄░░░ ', end: ' ░░░►════•' }, { start: '═✮❁•°♛°•❁✮═ ', end: ' ═✮❁•°♛°•❁✮═' },
+    { start: '•°•°•❈', end: '❈•°•°•' }, { start: '(ㅅ´ ˘ `) ', end: ' (ㅅ´ ˘ `)' }, 
+    { start: 'ฅ^._.^ฅ', end: 'ฅ^._.^ฅ' }, { start: '•❅───✧❅✦ ', end: ' ✦❅✧───❅•' }, 
+    { start: '───※ ', end: ' ※───' }, { start: '─── ･ ｡ﾟ☆: ', end: ' :☆ﾟ. ───' }, 
+    { start: '* . °•★|•°∵ ', end: ' ∵°•|☆•° . *' }, { start: '★彡 ', end: ' 彡★' },
+    { start: '☆★☆★→ ', end: ' ←☆★☆★' }, { start: '✸→→⛤', end: '⛤←←✸' }, 
+    { start: '╚══ ≪ °❈|', end: '|❈° ≫ ══╝' }, { start: '•°♛°•', end: '•°♛°•' }, 
+    { start: '( ͡° ͜ʖ ͡°) ', end: ' ( ͡° ͜ʖ ͡°)' }, { start: '(´•‿•`) ', end: ' (´•‿•`)' },  
+    { start: '︶︵︶ ', end: ' ︶︵︶' }, { start: '꧁༒☬ ', end: ' ☬༒꧂' }, 
+    { start: '꧁♥ ', end: ' ♥꧂' }, { start: '꧁𓊈𒆜', end: '𒆜𓊉꧂' }, 
+    { start: '꧁•⊹٭ ', end: ' ٭⊹•꧂' }, { start: '(◍•ᴗ•◍) ', end: ' (◍•ᴗ•◍)' },  
+    { start: '♥╣[-_-]╠♥ ', end: ' ♥╣[-_-]╠♥' }, { start: '(◞‸◟) ', end: ' (◞‸◟)' }, 
+    { start: '(^▽^) ', end: ' (^▽^)' }, { start: '(*ˊᗜˋ*)', end: '(*ˊᗜˋ*)' }, 
+    { start: '(oꆤ︵ꆤo) ', end: ' (oꆤ︵ꆤo)' }, { start: '(●︿●) ', end: ' (●︿●)' },    
+    { start: '(∵❤◡❤∵)', end: '(∵❤◡❤∵)' }, { start: '(*ˊᗜˋ*)', end: '(*ˊᗜˋ*)' },    
+    { start: '', end: '' }, { start: '', end: '' },   
+    { start: '', end: '' }, { start: '', end: '' },    
+    { start: '', end: '' }, { start: '', end: '' },    
+    { start: '', end: '' }, { start: '', end: '' },   
+    { start: '', end: '' }, { start: '', end: '' },    
+    { start: '', end: '' }, { start: '', end: '' },    
+    { start: '', end: '' }, { start: '', end: '' },   
+    { start: '', end: '' }, { start: '', end: '' },    
+    { start: '', end: '' }, { start: '', end: '' },    
+    { start: '', end: '' }, { start: '', end: '' },        
+
+
+
 ];
 const wordStyles = [
-    { left: '✨', right: '✨' }, 
+    { left: '╡°˖✧', right: '✧˖°╞' },
     { left: '🍀', right: '🍀' }, 
-    { left: '🌟', right: '🌟' },{ left: '✨', right: '✨' }, 
-    { left: '🍀', right: '🍀' }
+    { left: '───✧₊∘', right: '∘₊✧───' },
+    { left: '＼', right: '／' }, 
+    { left: '❄', right: '❄' },
+    { left: '❄ |', right: '| ❄' }, 
+    { left: '═✿╡', right: '╞✿═' },
+    { left: '♛', right: '♛' }, 
+    { left: '☜', right: '☞' },
+    { left: '◐', right: '◑' }, 
+    { left: '"', right: '"' },
+    { left: '～', right: '～' }, 
+    { left: '⧱', right: '⧱' },
+    { left: '⤝', right: '⤞' },
+    { left: '⤟', right: '⤠' }, 
+    { left: '↜', right: '↝' },
+    { left: '↞', right: '↠' }, 
+    { left: '⇷', right: '⇸' },
+    { left: '', right: '' }, 
+    { left: '', right: '' },
+    { left: '', right: '' }, 
+    { left: '', right: '' },
+    { left: '', right: '' }, 
+    { left: '', right: '' },
 ];
 const charStyles = [
-    { emoji: '🎵' }, 
-    { emoji: '🌸' }, 
-    { type: 'doubleChar', sign1: '(', sign2: ')' },
-    { type: 'aroundChars', emoji: '💎' },
-    { emoji: '🎵' }, 
-    { emoji: '🌸' }, 
-    { type: 'doubleChar', sign1: '(', sign2: ')' },
-    { type: 'aroundChars', emoji: '💎' },
-    { emoji: '🎵' }, 
-    { emoji: '🌸' }, 
-    { type: 'doubleChar', sign1: '(', sign2: ')' },
-    { type: 'aroundChars', emoji: '💎' }, { emoji: '🎵' }, 
-    { emoji: '🌸' }, 
-    { type: 'doubleChar', sign1: '(', sign2: ')' },
-    { type: 'aroundChars', emoji: '💎' }
+
+    { emoji: '✾' },{ type: 'doubleChar', sign1: '(', sign2: ')' },
+    { emoji: '✿' },{ type: 'doubleChar', sign1: '〖', sign2: '〗' },
+    { emoji: '✤' },{ type: 'doubleChar', sign1: '︺', sign2: '︹' },
+    { emoji: '❀' }, { type: 'doubleChar', sign1: '︶', sign2: '︵' },
+    { emoji: '❁' }, { type: 'doubleChar', sign1: '〔', sign2: '〕' },
+    { emoji: '❃' }, { type: 'doubleChar', sign1: '【', sign2: '】' },
+    { emoji: '❊' }, { type: 'doubleChar', sign1: '『', sign2: '』' },
+    { emoji: '❋' },{ type: 'doubleChar', sign1: '【', sign2: '】' },
+    { emoji: '✣' }, { type: 'doubleChar', sign1: '「', sign2: '」' },
+    { emoji: '✤' }, { type: 'doubleChar', sign1: '︸', sign2: '︷' },
+    { emoji: 'ꕤ' },  { type: 'doubleChar', sign1: '︼', sign2: '︻' },
+    { emoji: 'ꕥ' }, { type: 'doubleChar', sign1: '︿', sign2: '﹀' },
+    { emoji: '✽' }, { type: 'doubleChar', sign1: '﹂', sign2: '﹁' },
+    { emoji: '⚜' }, { type: 'doubleChar', sign1: '〘', sign2: '〙' },
+    { emoji: '♡' }, { type: 'doubleChar', sign1: '〚', sign2: '〛' },
+    { emoji: '❤' }, { type: 'doubleChar', sign1: '«', sign2: '»' },
+    { emoji: '♥' }, { type: 'doubleChar', sign1: '《', sign2: '》' },
+    { emoji: '❤️️' }, { type: 'doubleChar', sign1: '◤', sign2: '◢' },
+    { emoji: '❥' }, { type: 'doubleChar', sign1: '╟', sign2: '╢' },
+    { emoji: '❣' }, { type: 'doubleChar', sign1: '⦑', sign2: '⦒' },
+    { emoji: '❦' }, { type: 'doubleChar', sign1: '⧼', sign2: '⧽' },
+    { emoji: '❧' }, { type: 'doubleChar', sign1: '', sign2: '' },
+    { emoji: '🖤' }, { type: 'doubleChar', sign1: '', sign2: '' },
+    { emoji: '۵' }, { type: 'doubleChar', sign1: '', sign2: '' },
+    { emoji: '✩' }, { type: 'doubleChar', sign1: '', sign2: '' },
+    { emoji: '✰' }, { type: 'doubleChar', sign1: '', sign2: '' },
+    { emoji: '✬' }, { type: 'doubleChar', sign1: '', sign2: '' },
+    { emoji: '★' }, { type: 'doubleChar', sign1: '', sign2: '' },
+    { emoji: '✦' }, { type: 'doubleChar', sign1: '', sign2: '' },
+    { emoji: '✧' }, { type: 'doubleChar', sign1: '', sign2: '' },
+    { emoji: '✡' }, { type: 'doubleChar', sign1: '', sign2: '' },
+    { emoji: '⁂' }, { type: 'doubleChar', sign1: '', sign2: '' },
+    { emoji: '⁑' }, { type: 'doubleChar', sign1: '', sign2: '' },
+    { emoji: '✭' }, { type: 'doubleChar', sign1: '', sign2: '' },
+    { emoji: '✮' }, { type: 'doubleChar', sign1: '', sign2: '' },
+    { emoji: '✯' }, { type: 'doubleChar', sign1: '', sign2: '' },
+    { emoji: '✪' }, { type: 'doubleChar', sign1: '', sign2: '' },
+    { emoji: '✫' }, { type: 'doubleChar', sign1: '', sign2: '' },
+    { emoji: '♱' }, { type: 'doubleChar', sign1: '', sign2: '' },
+    { emoji: '✶' }, { type: 'doubleChar', sign1: '', sign2: '' },
+    { emoji: '❄' }, { type: 'doubleChar', sign1: '', sign2: '' },
+    { emoji: '☽' }, { type: 'doubleChar', sign1: '', sign2: '' },
+    { emoji: '🌸' }, { type: 'doubleChar', sign1: '', sign2: '' },
+    { emoji: '💮' }, { type: 'doubleChar', sign1: '', sign2: '' },
+    { emoji: '🎕' }, { type: 'doubleChar', sign1: '', sign2: '' },
+    { emoji: '⧳' }, { type: 'doubleChar', sign1: '', sign2: '' },
+    { emoji: '～' }, { type: 'doubleChar', sign1: '', sign2: '' },
+    { emoji: '⧰' }, { type: 'doubleChar', sign1: '', sign2: '' },
+    { emoji: '' }, { type: 'doubleChar', sign1: '', sign2: '' },
+    { emoji: '' }, { type: 'doubleChar', sign1: '', sign2: '' },
+    { emoji: '' }, { type: 'doubleChar', sign1: '', sign2: '' },
+    { emoji: '' }, { type: 'doubleChar', sign1: '', sign2: '' },
+    { emoji: '' }, { type: 'doubleChar', sign1: '', sign2: '' },
+    { emoji: '' }, { type: 'doubleChar', sign1: '', sign2: '' },
+    { emoji: '' }, { type: 'doubleChar', sign1: '', sign2: '' },
+    { emoji: '' }, { type: 'doubleChar', sign1: '', sign2: '' },
+    { emoji: '' }, { type: 'doubleChar', sign1: '', sign2: '' },
+    { emoji: '' }, { type: 'doubleChar', sign1: '', sign2: '' },
+    { emoji: '' }, { type: 'doubleChar', sign1: '', sign2: '' },
+
 ];
 const spaceStyles = [
-    { emoji: '🔹' }, 
-    { emoji: '⭐' }, 
-    { emoji: '🌟' },{ emoji: '🔹' }, 
-    { emoji: '⭐' }
+    { emoji: '❄' }, { emoji: '•❅─✦─❅•' }, { emoji: '♛' },
+    { emoji: '🎕' }, { emoji: '' },{ emoji: '' }, 
+    { emoji: '' }, { emoji: '' },{ emoji: '♜' }, 
+    { emoji: '⧳' }, { emoji: '♢' },{ emoji: '♦' }, 
+    { emoji: '❆' }, { emoji: '⧰' },{ emoji: '' }, 
+    { emoji: '⇼' }, { emoji: '↭' },{ emoji: '⇹' }, 
+    { emoji: '⇿' }, { emoji: '⤄' },{ emoji: '⟺' }, 
+    { emoji: 'ꝏ' }, { emoji: '⧝' },{ emoji: '❂' }, 
+    { emoji: '' }, { emoji: '' },{ emoji: '' }, 
+    { emoji: '' }, { emoji: '' },{ emoji: '' }, 
+    { emoji: '' }, { emoji: '' },{ emoji: '' }, 
+    { emoji: '' }, { emoji: '' },{ emoji: '' }, 
+    { emoji: '' }, { emoji: '' },{ emoji: '' }, 
+    { emoji: '' }, { emoji: '' },{ emoji: '' }, 
+    { emoji: '' }, { emoji: '' },{ emoji: '' }, 
+    { emoji: '' }, { emoji: '' },{ emoji: '' }, 
+    { emoji: '' }, { emoji: '' },{ emoji: '' }, 
+    { emoji: '' }, { emoji: '' },{ emoji: '' }, 
+    { emoji: '' }, { emoji: '' },{ emoji: '' }, 
+    { emoji: '' }, { emoji: '' },{ emoji: '' }, 
+    { emoji: '' }, { emoji: '' },{ emoji: '' }, 
+    { emoji: '' }, { emoji: '' },{ emoji: '' }, 
+    { emoji: '' }, { emoji: '' },{ emoji: '' }, 
+    { emoji: '' }, { emoji: '' },{ emoji: '' }, 
+    { emoji: '' }, { emoji: '' },{ emoji: '' }, 
+
 ];
 
 // Create shared scrollable lines for each modification type
@@ -226,12 +361,12 @@ function separateEmojisAroundWord(text, leftEmoji, rightEmoji) {
     const words = text.split(" ");
     return words.map(word => `${leftEmoji}${word}${rightEmoji}`).join(" ");
 }
-
+/*
 function insertEmojiAroundChars(text, emoji) {
     const newText = insertEmojiBetweenChars(text, emoji); // Apply emoji between characters
     return separateEmojisAroundWord(newText, emoji, emoji); // Then separate words with emojis
 }
-
+*/
 function addTwoSignsAroundChars(text, sign1, sign2) {
     return Array.from(text).map(char => char !== ' ' ? `${sign1}${char}${sign2}` : char).join('');
 }
@@ -335,10 +470,152 @@ function copyToClipboard(elementId) {
     }, 7000);
   }
   
- 
-
-    document.getElementById("outputSection").addEventListener("click", function() {
+   document.getElementById("outputSection").addEventListener("click", function() {
        copyToClipboard('outputSection');
     });
 
+    document.getElementById("copyButton").addEventListener("click", function() {
+        copyToClipboard('outputSection');
+     });
+ 
+
+        //erase text from input 
+        const eraseLogo = document.getElementById('eraseLogo');
+        const input = document.getElementById('inputText');
+        
+        // Hide erase logo initially
+        eraseLogo.style.display = input.value.length > 0 ? 'inline-block' : 'none';
+        
+        eraseLogo.addEventListener('click', () => {
+            input.value = '';
+            eraseLogo.style.display = 'none';
+        });
+        
+        input.addEventListener('input', () => {
+            eraseLogo.style.display = input.value.length > 0 ? 'inline-block' : 'none';
+        });
+        
+        
+        
+              // Menu JavaScript
+    
+        const leftSign = document.querySelector('.left-sign');
+        const rightSign = document.querySelector('.right-sign');
+        const fontsMenu = document.querySelector('.fonts-menu');
+        let scrollInterval;
+        const scrollAmount = 10;
+    
+        // Check arrow visibility
+        const checkArrowVisibility = () => {
+         const atStart = fontsMenu.scrollLeft <= 0;
+         const atEnd = fontsMenu.scrollLeft >= (fontsMenu.scrollWidth - fontsMenu.clientWidth - 1);
+         leftSign.classList.toggle('hidden', atStart);
+         rightSign.classList.toggle('hidden', atEnd);
+        };
+    
+        fontsMenu.addEventListener('scroll', checkArrowVisibility);
+    
+        // Start scrolling function
+        const startScrolling = (direction) => {
+    
+            scrollInterval = setInterval(() => {
+              fontsMenu.scrollLeft += direction * scrollAmount;
+              checkArrowVisibility(); // Ensure arrow visibility is updated during scrolling
+            }, 15); // Adjust the speed of scrolling here (lower value means faster scrolling)
+    
+        };
+    
+        // Stop scrolling function
+        const stopScrolling = () => {
+            clearInterval(scrollInterval);
+        };
+    
+        // Mouse events
+        leftSign.addEventListener('mousedown', () => {
+            startScrolling(-1); // Scroll left
+            leftSign.classList.add('active'); // Manually add active class
+        });
+    
+        rightSign.addEventListener('mousedown', () => {
+            startScrolling(1); // Scroll right
+            rightSign.classList.add('active'); // Manually add active class
+        });
+    
+        document.addEventListener('mouseup', () => {
+            stopScrolling();
+            leftSign.classList.remove('active'); // Manually remove active class
+            rightSign.classList.remove('active'); // Manually remove active class
+        });
+    
+        // Touch events
+        leftSign.addEventListener('touchstart', (event) => {
+            event.preventDefault(); // Prevent default behavior
+            startScrolling(-1); // Scroll left
+            leftSign.classList.add('active'); // Manually add active class
+        });
+    
+        rightSign.addEventListener('touchstart', (event) => {
+            event.preventDefault(); // Prevent default behavior
+            startScrolling(1); // Scroll right
+            rightSign.classList.add('active'); // Manually add active class
+        });
+    
+        document.addEventListener('touchend', () => {
+            stopScrolling();
+            leftSign.classList.remove('active'); // Manually remove active class
+            rightSign.classList.remove('active'); // Manually remove active class
+        });
+    
+        document.addEventListener('touchcancel', () => {
+            stopScrolling();
+            leftSign.classList.remove('active'); // Manually remove active class
+            rightSign.classList.remove('active'); // Manually remove active class 
+        });
+    
+        // Initial check for arrow visibility
+        checkArrowVisibility();
+    
+        // Function to set active menu item based on current page URL
+        function setActiveMenuItem() {
+            const currentPageUrl = window.location.href;
+            const menuItems = document.querySelectorAll('.fonts-menu-item');
+            let activeItem = null;
+    
+            menuItems.forEach(item => {
+    
+                const itemUrl = item.getAttribute('data-url');
+    
+                if (itemUrl === currentPageUrl) {
+                    item.classList.add('active');
+                    activeItem = item;
+                } else {
+                    item.classList.remove('active');
+                }
+    
+            });
+    
+            // Move the active item to the first position if there is one
+            if (activeItem) {
+                fontsMenu.insertBefore(activeItem, fontsMenu.firstChild);
+            }
+    
+        }
+    
+        setActiveMenuItem();
+    
+        document.querySelectorAll('.fonts-menu-item').forEach(item => {
+    
+            item.addEventListener('click', () => {
+                const url = item.getAttribute('data-url');
+                window.location.href = url;
+            });
+    
+        });
+    
+    
+ 
+        
+    
+    
+});
     

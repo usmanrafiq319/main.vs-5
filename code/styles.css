@@ -100,7 +100,7 @@ button:hover {
 .remove-btn {
     display: block;
     margin: 10px auto;
-    background-color:  #0162ca;
+    background-color:  #026ad8;
     color:  #fff;
     transition: transform 0.2s ease; /* Adjust the duration and timing function as needed */
 
@@ -123,15 +123,39 @@ button:hover {
     border: 3px solid #808080; /* Black border */
     background-color: #fff;
     border-radius: 10px;
-    text-align: center;
     font-size: 18px;
     position: sticky;
-    transition: border-color 0.3s ease; /* Smooth transition */
     top: 0px;
-    z-index:10 ;
+    z-index: 10;
     cursor: pointer;
     min-height: 54px;
+    display: flex;
+    justify-content: space-between; /* Span on left, button on right */
+    align-items: center; /* Vertically center both span and button */
+    transition: border-color 0.3s ease; /* Smooth transition */
+    overflow: hidden; /* Prevent overflow */
 }
+
+/* Span for text inside outputSection */
+#outputSection {
+    flex-grow: 1; /* Span takes remaining space */
+    max-width: calc(100% - 10px); /* Set max width to prevent overflow, adjust 100px as needed */
+    word-wrap: break-word; /* Break long words and wrap to the next line */
+    white-space: normal; /* Allow text to wrap to the next line */
+    text-align: center; /* Horizontally center text */
+    overflow-wrap: break-word; /* Ensure text wraps correctly */
+    margin-right: 10px; /* Add some space between the text and the button */
+}
+
+/* Copy Button */
+.copy-button {
+
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+
+
 .output-section:hover {
     border: 3px solid #FF4500;
 
@@ -146,7 +170,7 @@ button:hover {
     padding: 25px;
     background: #f0f0f0;
     animation: fadeOut 70s forwards;
-    border: 2px solid #0162ca;
+    border: 2px solid #007bff;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     border-radius: 10px;
     text-align: center;
