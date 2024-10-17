@@ -10,12 +10,25 @@ body {
     max-width: 1200px;
     margin: 0 auto;
     margin-top: 20px;
-    background: #fff;
+    background: #f4f4f4;
     padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 15px;
+    border:3px dashed #808080; 
 }
+/* Media query for mobile devices */
+@media (max-width: 768px) {
+    .container {
+        background: none;       /* Remove background */
+        padding: 0;             /* Remove padding */
+        border: none;           /* Remove border */
+        margin-top: 0;          /* Adjust margins if needed */
+    }
+    /* Style Section Container  */
+.style-section {
+    padding: 5px;
 
+}
+}
  h2 {
     text-align: center;
     color: #000000;
@@ -35,23 +48,36 @@ textarea {
     resize: none;
 }
 
-/* Style Section Container */
+/* Style Section Container  */
 .style-section {
-    border-radius: 10px;
-    border: 3px solid #ddd;
-    padding: 10px;
+    border: 3px solid #ddd; 
+    padding: 15px;
     background: #f9f9f9;
 
 }
+#stylesection1{
+    border-radius: 10px 10px 0 0;
+    margin-top: 10px;
+    border-bottom: 0;
+}
+#stylesection3{
+    border-top: 0;
 
+}
+#stylesection4{
+    border-radius: 0 0 10px 10px;
+    margin-bottom: 10px;
+    border-top: 0;
+
+}
 /* Scrollable Container */
 .scrollable-container {
     display: flex;
     overflow-x: auto;
     white-space: nowrap;
     border: 1px solid #ddd;
-    padding: 10px;
     border-radius: 10px;
+    padding: 10px;   
     background-color:#fff;
     align-items: flex-start;
 }
@@ -127,6 +153,7 @@ button:hover {
     position: sticky;
     top: 0px;
     z-index: 10;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     cursor: pointer;
     min-height: 54px;
     display: flex;
@@ -145,22 +172,35 @@ button:hover {
     text-align: center; /* Horizontally center text */
     overflow-wrap: break-word; /* Ensure text wraps correctly */
     margin-right: 10px; /* Add some space between the text and the button */
+    color: black;
+    transition: color 0.3s ease;
 }
 
 /* Copy Button */
 .copy-button {
-
+    border: 3px solid #808080;
     font-size: 16px;
-    transition: background-color 0.3s ease;
-}
-
-
-
-.output-section:hover {
-    border: 3px solid #FF4500;
+    border-radius: 5px;
+    background-color: #fff;
+    transition: border-color 0.3s ease, background-color 0.3s ease;
 
 }
 
+/* Change colors when hovering over the output section or the button */
+#outputSection:hover,
+#copyButton:hover,
+#outputText:hover #outputSection,
+#outputText:hover #copyButton {
+    color: #026ad8; /* Change text color of output section */
+
+}
+
+#outputText:hover #copyButton {
+    background-color: #026ad8; /* Change button background */
+    color:#fff;
+    border: 3px solid #026ad8;
+
+}
 /* Notification styling */
 .notification {
     position: fixed;

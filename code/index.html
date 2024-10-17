@@ -8,22 +8,24 @@
 </head>
 <body>
     <div class="container">
-        <h1>Text Decoration Tool</h1>
-
         <!-- Text Input Area -->
-        <textarea id="inputText" placeholder="Type your text here..."></textarea>
+        <textarea id="decoreinputText" placeholder="Type your text here..."></textarea>
 
         
         <div id="outputText" class="output-section">
-            <span id="outputSection">            <!-- This is where the modified text will appear -->
+            <span id="outputSection">        ꧁♥ Modified text will appear ♥꧂
             </span>
             <button id="copyButton" class="copy-button">Copy</button>
         </div>
         
+        <select id="fontSelect">
+            <option value="" disabled selected>Select a font</option>
+        </select>
+        
 
 
         <!-- Full Text Style Section -->
-        <div class="style-section">
+        <div class="style-section" id="stylesection1">
             <h2>Full Text Styles</h2>
             <div class="scrollable-container">
                 <div class="button-group-wrapper">
@@ -37,7 +39,7 @@
         </div>
         
         <!-- Space Replacement Section -->
-        <div class="style-section">
+        <div class="style-section" id="stylesection2">
             <h2>Space Styles</h2>
             <div class="scrollable-container">
                 <div class="button-group-wrapper">
@@ -52,7 +54,7 @@
 
         
         <!-- Word Style Section -->
-        <div class="style-section">
+        <div class="style-section" id="stylesection3">
             <h2>Word Styles</h2>
             <div class="scrollable-container">
                 <div class="button-group-wrapper">
@@ -66,7 +68,7 @@
         </div>
 
         <!-- Character Style Section -->
-        <div class="style-section">
+        <div class="style-section" id="stylesection4">
             <h2>Character Styles</h2>
             <div class="scrollable-container">
                 <div class="button-group-wrapper">
