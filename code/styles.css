@@ -182,8 +182,12 @@ button:hover {
     font-size: 16px;
     border-radius: 5px;
     background-color: #fff;
+    padding: 10px; /* Add padding if needed */
+    overflow: hidden; /* Prevent overflow */
+    white-space: nowrap; /* Ensure the text stays in a single line */
+    text-overflow: ellipsis; /* Add ellipsis if the text is too long */
+    word-wrap: break-word; /* Allows wrapping of long words */
     transition: border-color 0.3s ease, background-color 0.3s ease;
-
 }
 
 /* Change colors when hovering over the output section or the button */

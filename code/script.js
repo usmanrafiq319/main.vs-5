@@ -15,7 +15,7 @@ if (customData) {
     document.getElementById('decoreinputText').textContent = customData;  // Use the  migrated data as needed
   }
 
-// Populate the dropdown with font names styled accordingly
+// Populate the dropdown with the phrase "Font Style" styled accordingly
 function populateFontSelect() {
     const fontSelect = document.getElementById('fontSelect');
     
@@ -23,35 +23,64 @@ function populateFontSelect() {
         const option = document.createElement('option');
         option.value = fontName;
         
-        // Map the fontName into its custom font style
-        const fontMapping = generateFontMapping(fonts[fontName]);
-        const styledFontName = mapToFont(fontMapping, fontName); // Convert font name to custom font
+        // The phrase to display in each font style
+        const phrase = "Font Style";
         
-        option.textContent = styledFontName;  // Set the styled name in the dropdown
+        // Map the phrase into its custom font style
+        const fontMapping = generateFontMapping(fonts[fontName]);
+        const styledPhrase = mapToFont(fontMapping, phrase); // Convert the phrase "Font Style" to the custom font
+        
+        option.textContent = styledPhrase;  // Set the styled phrase in the dropdown
         option.classList.add('font-option');
-        option.style.fontFamily = fontName;  // Optionally set font-family for display
+        option.style.fontFamily = fontName;  // Optionally set the font-family to the font
         fontSelect.appendChild(option);
     });
 }
+
 
 // Initialize dropdown on page load
 window.onload = function() {
     populateFontSelect();
 };
 
- // Apply font style and update the universal transformedText variable
+
 function applyFontStyle() {
     const fontName = document.getElementById('fontSelect').value;
-    const inputText = document.getElementById('decoreinputText').value;
-    
-    if (fontName && fonts[fontName]) {
-        const fontMapping = generateFontMapping(fonts[fontName]);
-        transformedText = mapToFont(fontMapping, inputText);
-    } else {
-        transformedText = inputText; // Default case
+    let inputText = document.getElementById('decoreinputText').value;
+
+    // Function to check if the input contains only ASCII characters
+    function isAsciiOnly(text) {
+        return /^[\x00-\x7F]*$/.test(text);  // Regex for ASCII characters only
     }
-    applyModifications(transformedText); // Trigger the modification after applying font
+
+    // Fetch sharedInput value from sessionStorage if it exists
+    const sharedInput = sessionStorage.getItem('sharedInput');
+
+    // If a font is selected, perform the input checks
+    if (fontName) {
+        // Check if the inputText is non-ASCII or empty
+        if (!isAsciiOnly(inputText) || inputText === "") {
+            // If inputText contains non-ASCII characters or is empty and sharedInput exists, use it
+            if (sharedInput) {
+                inputText = sharedInput;  // Replace inputText with sharedInput
+                console.log("Non-ASCII detected or empty input. Using shared input from sessionStorage.");
+            } else {
+                console.log("Non-ASCII detected or empty input, but no shared input found.");
+            }
+        }
+    }
+            // Apply font style to the input text
+            if (fonts[fontName]) {
+                const fontMapping = generateFontMapping(fonts[fontName]);
+                transformedText = mapToFont(fontMapping, inputText);  // Use the updated inputText
+            } else {
+                transformedText = inputText;  // Default case if no font is selected
+            }
+    
+            applyModifications(transformedText);  // Trigger the modification after applying font
 }
+
+
 
 // Event listener for dynamic input changes
 document.getElementById('decoreinputText').addEventListener('input', applyFontStyle);
@@ -80,9 +109,9 @@ function applyModifications(transformedText) {
         modifiedText = addEmojiToSpaces(modifiedText, currentSpaceStyle.emoji);
     }
 
-    // Apply full text modification if it exists
-    if (currentFullTextStyle) {
-        modifiedText = currentFullTextStyle.start + modifiedText + currentFullTextStyle.end;
+   // Apply full text modification if it exists and if there are characters or words present
+    if (currentFullTextStyle && modifiedText.trim() !== "") {
+     modifiedText = currentFullTextStyle.start + modifiedText + currentFullTextStyle.end;
     }
 
     document.getElementById('outputSection').textContent = modifiedText;
@@ -551,17 +580,28 @@ element2.addEventListener('click', changeButtonText);
 element3.addEventListener('click', changeButtonText);
 
 
-// Helper Functions
+// Helper Function
 function separateEmojisAroundWord(text, leftEmoji, rightEmoji) {
-    const words = text.split(" ");
-    return words.map(word => `${leftEmoji}${word}${rightEmoji}`).join(" ");
+    // Use a regular expression to split the text while preserving spaces
+    const wordsAndSpaces = text.split(/(\s+)/);  // This keeps spaces as separate elements
+
+    return wordsAndSpaces.map(item => {
+        // Only add emojis around words, ignore spaces
+        if (item.trim() !== "") {  // Check if it's not a space (trim removes spaces)
+            return `${leftEmoji}${item}${rightEmoji}`;  // Add emojis around non-space items
+        } else {
+            return item;  // Return spaces without modification
+        }
+    }).join("");  // Join the array back into a string without altering spaces
 }
+
 /*
 function insertEmojiAroundChars(text, emoji) {
     const newText = insertEmojiBetweenChars(text, emoji); // Apply emoji between characters
     return separateEmojisAroundWord(newText, emoji, emoji); // Then separate words with emojis
 }
 */
+
 function addTwoSignsAroundChars(text, sign1, sign2) {
     return Array.from(text).map(char => char !== ' ' ? `${sign1}${char}${sign2}` : char).join('');
 }
